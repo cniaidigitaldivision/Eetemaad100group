@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 
 import { HeroPortal } from "@/components/hero-portal";
+import { AboutSection } from "@/components/about-section";
 import logo from "@/assets/logo.png";
 import visionImg from "@/assets/section2_mountain_image.jpeg";
 import ridgeImg from "@/assets/ridge.jpg";
@@ -117,8 +118,11 @@ function Index() {
         </div>
       </header>
 
-      {/* Hero & The Markhor Portal */}
+      {/* 1. Your original Hero section */}
       <HeroPortal logo={logo} visionRef={visionRef} />
+
+      {/* 2. Your separate About section with 3-Cards reveal */}
+      <AboutSection />
 
       {/* Vision */}
       <section className="relative isolate overflow-hidden bg-ink-soft">

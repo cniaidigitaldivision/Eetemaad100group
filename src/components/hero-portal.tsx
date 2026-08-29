@@ -1,9 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { Mouse } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import heroBg from "@/assets/hero-bg.jpg";
+
+// Avoids the "useLayoutEffect does nothing on the server" warning under SSR.
+const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 type HeroPortalProps = {
   logo: string;
@@ -19,46 +22,43 @@ export function HeroPortal({ logo, visionRef }: HeroPortalProps) {
   const contentRef = useRef<HTMLDivElement>(null);
   const scrollHintRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reducedMotion) return;
 
     gsap.registerPlugin(ScrollTrigger);
 
+    // transform-origin: center center — keeps the scale/rotate pivot fixed so
+    // the ring expands symmetrically instead of drifting during the scrub.
+    gsap.set([bgRef.current, tiltRef.current, circleRef.current, contentRef.current], {
+      transformOrigin: "center center",
+    });
+
     const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
+      const isMobile = window.matchMedia("(max-width: 639px)").matches;
+      const circleScale = isMobile ? 8 : 12;
+      const bgTravel = isMobile ? 24 : 50;
 
-      mm.add(
-        { isMobile: "(max-width: 639px)" },
-        (context) => {
-          const { isMobile } = (context as unknown as { conditions: { isMobile: boolean } }).conditions;
-          const circleScale = isMobile ? 6 : 12;
-          const bgTravel = isMobile ? 24 : 50;
-
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top top",
-              end: "+=150%",
-              scrub: 1,
-              pin: true,
-              anticipatePin: 1,
-            },
-          });
-
-          tl.to(contentRef.current, { opacity: 0, scale: 0.8, filter: "blur(10px)", duration: 0.4, ease: "power1.out" }, 0)
-            .to(circleRef.current, { scale: circleScale, opacity: 0, duration: 1, ease: "power2.inOut" }, 0.15)
-            .to(bgRef.current, { scale: 1.1, y: bgTravel, duration: 1, ease: "power1.out" }, 0)
-            .fromTo(
-              visionRef.current,
-              { opacity: 0, scale: 0.85 },
-              { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" },
-              0.85,
-            );
-
-          return () => {};
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "+=150%",
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
         },
-      );
+      });
+
+      tl.to(contentRef.current, { opacity: 0, scale: 0.8, filter: "blur(10px)", duration: 0.4, ease: "power1.out" }, 0)
+        .to(circleRef.current, { scale: circleScale, opacity: 0, duration: 1, ease: "power2.inOut" }, 0.15)
+        .to(bgRef.current, { scale: 1.1, y: bgTravel, duration: 1, ease: "power1.out" }, 0)
+        .fromTo(
+          visionRef.current,
+          { opacity: 0, scale: 0.85 },
+          { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" },
+          0.85,
+        );
 
       // Ambient 3D mouse-parallax tilt on the portal ring
       if (tiltRef.current && window.matchMedia("(hover: hover)").matches) {
