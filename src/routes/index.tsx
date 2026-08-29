@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   ArrowRight,
@@ -11,7 +12,6 @@ import {
   Leaf,
   Linkedin,
   Mail,
-  Mouse,
   Plane,
   ShieldCheck,
   Sparkles,
@@ -19,8 +19,8 @@ import {
   Users,
 } from "lucide-react";
 
+import { HeroPortal } from "@/components/hero-portal";
 import logo from "@/assets/logo.png";
-import heroBg from "@/assets/hero-bg.jpg";
 import visionImg from "@/assets/section2_mountain_image.jpeg";
 import ridgeImg from "@/assets/ridge.jpg";
 import peakImg from "@/assets/peak.jpg";
@@ -77,6 +77,8 @@ const STATS = [
 ];
 
 function Index() {
+  const visionRef = useRef<HTMLDivElement>(null);
+
   return (
     <div className="min-h-screen bg-background font-sans">
       {/* Header */}
@@ -115,54 +117,8 @@ function Index() {
         </div>
       </header>
 
-      {/* Hero */}
-      <section id="home" className="relative isolate overflow-hidden">
-        <img
-          src={heroBg}
-          alt="Monolithic towers reflected in still water at night"
-          width={1920}
-          height={1088}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,var(--ink)_95%)]" />
-        <div className="relative flex min-h-[100svh] flex-col items-center justify-center px-5 py-32 text-center">
-          <div className="relative flex h-[410px] w-[410px] max-w-[90vw] items-center justify-center rounded-full border border-brand-bright/60 glow-ring sm:h-[480px] sm:w-[480px]">
-            <div className="flex flex-col items-center px-8">
-              <img
-                src={logo}
-                alt="ETEMAAD100 Group logo"
-                className="h-[110px] w-[110px] sm:h-[130px] sm:w-[130px] object-contain"
-              />
-              <h1 className="mt-5 text-center text-[15px] font-bold leading-[1.25] tracking-[0.06em] sm:text-[17px]">
-                ETEMAAD100
-                <br />
-                GROUP
-              </h1>
-              <p className="mt-5 text-[15px] font-light leading-tight tracking-[0.32em] sm:text-[19px]">
-                SOMETHING <span className="text-brand-bright">BIG</span>
-                <br />
-                IS COMING
-              </p>
-              <p className="mt-5 max-w-[300px] text-[11px] leading-relaxed text-muted-foreground sm:text-xs">
-                Five ventures. One legacy. The new digital home of ETEMAAD100 Group is almost here.
-              </p>
-              <a
-                href="#contact"
-                className="mt-6 rounded-sm border border-brand-bright/70 bg-brand/15 px-7 py-2.5 text-[10px] font-semibold uppercase tracking-[0.22em] transition-colors hover:bg-brand/35"
-              >
-                Stay Tuned
-              </a>
-            </div>
-          </div>
-
-          <div className="mt-12 flex flex-col items-center gap-2">
-            <Mouse className="h-6 w-6 text-muted-foreground" strokeWidth={1.2} />
-            <span className="text-[9px] uppercase tracking-[0.24em] text-muted-foreground">
-              Scroll to Explore
-            </span>
-          </div>
-        </div>
-      </section>
+      {/* Hero & The Markhor Portal */}
+      <HeroPortal logo={logo} visionRef={visionRef} />
 
       {/* Vision */}
       <section className="relative isolate overflow-hidden bg-ink-soft">
@@ -193,7 +149,10 @@ function Index() {
         </div>
 
         {/* Content Wrapper */}
-        <div className="relative z-10 mx-auto grid max-w-[1400px] items-center gap-10 px-5 pb-[340px] pt-24 md:px-10 sm:py-24 lg:grid-cols-2 lg:gap-16 lg:py-32">
+        <div
+          ref={visionRef}
+          className="relative z-10 mx-auto grid max-w-[1400px] items-center gap-10 px-5 pb-[340px] pt-24 md:px-10 sm:py-24 lg:grid-cols-2 lg:gap-16 lg:py-32"
+        >
           <div className="sm:max-w-[50%] lg:max-w-none">
             <p className="label-eyebrow">Welcome to</p>
             <h2 className="mt-4 text-4xl font-light leading-[1.15] tracking-tight sm:text-5xl">
