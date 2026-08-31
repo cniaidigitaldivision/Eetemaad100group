@@ -3,7 +3,7 @@ import { useEffect, useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import visionImg from "@/assets/five-ventures-hero-image.jpg";
+import visionImg from "@/assets/vision-slide-wide-fit.jpg";
 
 // Avoids the "useLayoutEffect does nothing on the server" warning under SSR.
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -95,8 +95,8 @@ export function VisionSlideshow({ visionRef }: VisionSlideshowProps) {
 
       gsap.set(images, { opacity: 0, scale: 1.05 });
       gsap.set(images[0]!, { opacity: 1, scale: 1 });
-      gsap.set(texts, { opacity: 0, y: 14 });
-      gsap.set(texts[0]!, { opacity: 1, y: 0 });
+      gsap.set(texts, { autoAlpha: 0, y: 14 });
+      gsap.set(texts[0]!, { autoAlpha: 1, y: 0 });
       dots.forEach((d) => d.setAttribute("data-active", "false"));
 
       // Each slide holds for ~65% of its unit, then spends ~35% crossfading
@@ -136,12 +136,12 @@ export function VisionSlideshow({ visionRef }: VisionSlideshowProps) {
             )
             .to(
               texts[i]!,
-              { opacity: 0, y: -14, filter: "blur(4px)", duration: transDuration * 0.8, ease: "none" },
+              { autoAlpha: 0, y: -14, filter: "blur(4px)", duration: transDuration * 0.8, ease: "none" },
               start,
             )
             .to(
               texts[i + 1]!,
-              { opacity: 1, y: 0, filter: "blur(0px)", duration: transDuration * 0.8, ease: "none" },
+              { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: transDuration * 0.8, ease: "none" },
               start + transDuration * 0.2,
             );
         }
@@ -185,13 +185,12 @@ export function VisionSlideshow({ visionRef }: VisionSlideshowProps) {
             }
             loading={i === 0 ? "eager" : "lazy"}
             onLoad={i === 0 ? () => ScrollTrigger.refresh() : undefined}
-            className={`absolute inset-0 w-full h-full object-cover object-center brightness-[1.35] contrast-110 saturate-[1.15] ${
-              i === 0 ? "" : "opacity-0"
-            }`}
-            style={{ 
-              width: "100%", 
-              height: "100%", 
-              objectFit: "cover", 
+            className={`absolute inset-0 w-full h-full object-cover object-center brightness-[1.35] contrast-110 saturate-[1.15] ${i === 0 ? "" : "opacity-0"
+              }`}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
               objectPosition: "center",
               margin: 0,
               padding: 0,
@@ -213,9 +212,8 @@ export function VisionSlideshow({ visionRef }: VisionSlideshowProps) {
             ref={(el) => {
               textRefs.current[i] = el;
             }}
-            className={`absolute inset-0 flex flex-col items-center justify-center px-5 ${
-              i === 0 ? "" : "opacity-0"
-            }`}
+            className={`absolute inset-0 flex flex-col items-center justify-center px-5 ${i === 0 ? "" : "opacity-0 invisible"
+              }`}
           >
             {slide.kind === "intro" ? (
               <div className="flex flex-col items-center text-center w-full h-full justify-center">
@@ -248,7 +246,7 @@ export function VisionSlideshow({ visionRef }: VisionSlideshowProps) {
                     ETEMAAD100<br />GROUP
                   </div>
                 </div>
-                
+
                 {/* Centered Content: Name -> Link */}
                 <div className="flex flex-col items-center mt-12 sm:mt-16 text-center">
                   <h2 className="text-4xl font-serif font-normal leading-tight tracking-[0.15em] sm:text-5xl lg:text-6xl uppercase text-slate-100 max-w-[90vw]">

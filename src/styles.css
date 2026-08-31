@@ -67,17 +67,16 @@
   --brand-bright: oklch(0.68 0.18 250);
 
   --glow-ring: 0 0 60px color-mix(in oklab, var(--brand-bright) 45%, transparent);
-  --card-sheen: linear-gradient(
-    160deg,
-    color-mix(in oklab, var(--brand) 16%, transparent),
-    color-mix(in oklab, var(--ink) 92%, transparent)
-  );
+  --card-sheen: linear-gradient(160deg,
+      color-mix(in oklab, var(--brand) 16%, transparent),
+      color-mix(in oklab, var(--ink) 92%, transparent));
 }
 
 @layer base {
   * {
     border-color: var(--color-border);
   }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -103,13 +102,11 @@
 }
 
 @utility portal-shimmer {
-  background: conic-gradient(
-    from 0deg,
-    transparent 0%,
-    color-mix(in oklab, var(--brand-bright) 90%, transparent) 8%,
-    transparent 24%,
-    transparent 100%
-  );
+  background: conic-gradient(from 0deg,
+      transparent 0%,
+      color-mix(in oklab, var(--brand-bright) 90%, transparent) 8%,
+      transparent 24%,
+      transparent 100%);
   -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), black calc(100% - 3px));
   mask: radial-gradient(farthest-side, transparent calc(100% - 3px), black calc(100% - 3px));
   animation: portal-shimmer-spin 4s linear infinite;
@@ -126,16 +123,19 @@
 }
 
 @keyframes portal-breathe {
+
   0%,
   100% {
     box-shadow: 0 0 40px color-mix(in oklab, var(--brand-bright) 35%, transparent);
   }
+
   50% {
     box-shadow: 0 0 70px color-mix(in oklab, var(--brand-bright) 55%, transparent);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .portal-shimmer,
   .portal-breathe {
     animation: none !important;
@@ -143,11 +143,9 @@
 }
 
 @utility mountain-arc-glow {
-  background: radial-gradient(
-    ellipse 130% 130% at 50% 78%,
-    transparent 46%,
-    color-mix(in oklab, var(--brand-bright) 50%, transparent) 56%,
-    color-mix(in oklab, var(--brand-bright) 18%, transparent) 76%,
-    transparent 94%
-  );
+  background: radial-gradient(ellipse 130% 130% at 50% 78%,
+      transparent 46%,
+      color-mix(in oklab, var(--brand-bright) 25%, transparent) 56%,
+      color-mix(in oklab, var(--brand-bright) 8%, transparent) 76%,
+      transparent 94%);
 }

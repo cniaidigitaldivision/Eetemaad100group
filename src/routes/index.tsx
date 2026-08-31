@@ -26,6 +26,7 @@ import {
 import { HeroPortal } from "@/components/hero-portal";
 import { AboutSection } from "@/components/about-section";
 import { VisionSlideshow } from "@/components/vision-slideshow";
+import { OurLegacySection } from "@/components/our-legacy-section";
 import logo from "@/assets/logo.png";
 import ridgeImg from "@/assets/ridge.jpg";
 import peakImg from "@/assets/peak.jpg";
@@ -59,13 +60,7 @@ const NAV = [
   { name: "Contact", href: "/#contact" }
 ];
 
-const VALUES = [
-  { icon: ShieldCheck, title: "Trust", body: "The foundation of everything we build." },
-  { icon: Target, title: "Integrity", body: "Honesty and transparency in every action." },
-  { icon: Diamond, title: "Excellence", body: "Raising the bar in every industry we serve." },
-  { icon: Leaf, title: "Legacy", body: "Honoring our roots. Building for future generations." },
-  { icon: Users, title: "Together", body: "Five ventures. One enduring vision." },
-];
+
 
 const COMPANIES = [
   { n: "01", icon: Home, name: "Gulshan e Chitral Homes Pvt Ltd", tag: "Residential Real Estate" },
@@ -89,55 +84,6 @@ const STATS = [
 
 function Index() {
   const visionRef = useRef<HTMLDivElement>(null);
-  const legacySectionRef = useRef<HTMLElement>(null);
-  const legacyTextRef = useRef<HTMLDivElement>(null);
-  const legacyCardsRef = useRef<Array<HTMLDivElement | null>>([]);
-  const legacyIconsRef = useRef<Array<SVGSVGElement | null>>([]);
-
-  useIsomorphicLayoutEffect(() => {
-    if (typeof window === "undefined") return;
-    gsap.registerPlugin(ScrollTrigger);
-
-    const ctx = gsap.context(() => {
-      if (!legacySectionRef.current) return;
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: legacySectionRef.current,
-          start: "top 80%",
-          once: true,
-        },
-      });
-
-      tl.fromTo(
-        legacyTextRef.current,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
-      );
-
-      const cards = legacyCardsRef.current.filter(Boolean);
-      const icons = legacyIconsRef.current.filter(Boolean);
-
-      if (cards.length) {
-        tl.fromTo(
-          cards,
-          { opacity: 0, y: 24 },
-          { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: "power2.out" },
-          "-=0.4"
-        );
-        if (icons.length) {
-          tl.fromTo(
-            icons,
-            { scale: 0.8 },
-            { scale: 1, duration: 0.5, stagger: 0.12, ease: "back.out(1.5)" },
-            "<"
-          );
-        }
-      }
-    }, legacySectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <div className="min-h-screen bg-background font-sans">
@@ -186,50 +132,7 @@ function Index() {
       <VisionSlideshow visionRef={visionRef} />
 
       {/* Legacy / values */}
-      <section className="bg-ink" ref={legacySectionRef}>
-        <div className="mx-auto grid max-w-[1400px] gap-12 px-5 py-20 md:px-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,2fr)] lg:gap-20">
-          <div ref={legacyTextRef}>
-            <p className="label-eyebrow">Our Legacy</p>
-            <h2 className="mt-4 text-3xl font-light leading-[1.2] sm:text-4xl">
-              Built on Trust.
-              <br />
-              Driven by Purpose.
-            </h2>
-            <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-              Rooted in the breathtaking valleys of Chitral, ETEMAAD100 Group stands for trust,
-              integrity, and excellence.
-            </p>
-            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              With a diversified portfolio of five dynamic companies, we are shaping a stronger
-              tomorrow while honoring our heritage and values.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-3 lg:grid-cols-5 lg:divide-x lg:divide-border">
-            {VALUES.map(({ icon: Icon, title, body }, i) => (
-              <div
-                key={title}
-                className="px-2 text-center lg:px-5"
-                ref={(el) => {
-                  legacyCardsRef.current[i] = el;
-                }}
-              >
-                <Icon
-                  ref={(el) => {
-                    legacyIconsRef.current[i] = el as unknown as SVGSVGElement;
-                  }}
-                  className="mx-auto h-7 w-7 text-brand-bright"
-                  strokeWidth={1.3}
-                />
-                <h3 className="mt-4 text-[11px] font-semibold uppercase tracking-[0.2em]">
-                  {title}
-                </h3>
-                <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">{body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <OurLegacySection />
 
       {/* Stats */}
       <section className="relative isolate overflow-hidden border-y border-border">
@@ -262,9 +165,9 @@ function Index() {
       </section>
 
       {/* CTA */}
-      <section id="contact" className="relative isolate overflow-hidden bg-ink-soft">
-        <div className="mx-auto grid max-w-[1400px] items-center gap-10 px-5 py-20 md:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,1fr)]">
-          <h2 className="text-4xl font-light uppercase leading-[1.15] tracking-tight sm:text-5xl">
+      <section id="contact" className="relative isolate overflow-hidden bg-ink-soft min-h-[600px] lg:min-h-[750px] flex items-center">
+        <div className="mx-auto grid w-full max-w-[1400px] items-center gap-12 sm:gap-16 lg:gap-24 px-5 py-20 md:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,1fr)]">
+          <h2 className="text-5xl font-light uppercase leading-[1.15] tracking-tight sm:text-6xl lg:text-7xl">
             Let&apos;s Build the
             <br />
             <span className="text-brand-bright">Future</span>
@@ -273,32 +176,32 @@ function Index() {
           </h2>
 
           <div>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-base sm:text-lg leading-relaxed text-muted-foreground">
               We believe in partnerships that create impact. Let&apos;s start a conversation.
             </p>
             <a
               href="#contact"
-              className="mt-6 inline-flex items-center gap-6 rounded-sm border border-brand-bright/70 px-7 py-3 text-[10px] font-semibold uppercase tracking-[0.22em] transition-colors hover:bg-brand/25"
+              className="mt-6 sm:mt-8 inline-flex items-center gap-6 rounded-sm border border-brand-bright/70 px-9 py-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.22em] transition-colors hover:bg-brand/25"
             >
-              Get in Touch <ArrowRight className="h-3.5 w-3.5" />
+              Get in Touch <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
             </a>
           </div>
 
-          <div className="relative flex h-[220px] items-end justify-center sm:h-[260px]">
-            <div className="mountain-arc-glow absolute left-1/2 top-6 h-[196px] w-[320px] -translate-x-1/2 rounded-t-full sm:h-[236px]" />
+          <div className="relative flex h-[320px] sm:h-[420px] lg:h-[480px] items-end justify-center w-full max-w-full">
+            <div className="mountain-arc-glow absolute left-1/2 top-4 sm:top-6 lg:top-8 h-[280px] w-[320px] sm:h-[380px] sm:w-[420px] lg:h-[440px] lg:w-[480px] -translate-x-1/2 rounded-t-full max-w-[90%]" />
             <img
               src={peakImg}
               alt="Dark mountain peak"
               width={1024}
               height={1024}
               loading="lazy"
-              className="relative h-[190px] w-[260px] object-cover object-bottom mix-blend-lighten"
+              className="relative h-[280px] w-[320px] sm:h-[380px] sm:w-[420px] lg:h-[440px] lg:w-[480px] max-w-[90%] object-cover object-bottom mix-blend-lighten"
             />
             <img
               src={logo}
               alt=""
               aria-hidden="true"
-              className="absolute right-0 top-0 h-14 w-14 object-contain"
+              className="absolute right-4 top-4 h-16 w-16 sm:h-20 sm:w-20 object-contain"
             />
           </div>
         </div>

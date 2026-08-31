@@ -177,11 +177,11 @@ function AboutPage() {
 
   // GSAP References
   const heroTextRef = useRef<HTMLDivElement>(null);
-  
+
   const introSectionRef = useRef<HTMLElement>(null);
   const introTextRef = useRef<HTMLDivElement>(null);
   const subsidiaryCardsRef = useRef<Array<HTMLDivElement | null>>([]);
-  
+
   const ceoSectionRef = useRef<HTMLElement>(null);
   const ceoTextRef = useRef<HTMLDivElement>(null);
 
@@ -230,7 +230,7 @@ function AboutPage() {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      
+
       // 1. Hero Reveal
       gsap.fromTo(
         heroTextRef.current,
@@ -244,7 +244,7 @@ function AboutPage() {
           scrollTrigger: { trigger: introSectionRef.current, start: "top 80%", once: true, invalidateOnRefresh: true }
         });
         tl.fromTo(introTextRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
-        
+
         const subCards = subsidiaryCardsRef.current.filter(Boolean);
         if (subCards.length) {
           tl.fromTo(subCards, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: "power2.out" }, "-=0.3");
@@ -253,9 +253,10 @@ function AboutPage() {
 
       // 3. CEO Message
       if (ceoSectionRef.current) {
-        gsap.fromTo(ceoTextRef.current, 
-          { opacity: 0, y: 30 }, 
-          { opacity: 1, y: 0, duration: 0.8, ease: "power2.out",
+        gsap.fromTo(ceoTextRef.current,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1, y: 0, duration: 0.8, ease: "power2.out",
             scrollTrigger: { trigger: ceoSectionRef.current, start: "top 80%", once: true, invalidateOnRefresh: true }
           }
         );
@@ -276,7 +277,7 @@ function AboutPage() {
           scrollTrigger: { trigger: valuesSectionRef.current, start: "top 80%", once: true, invalidateOnRefresh: true }
         });
         tl.fromTo(valuesTextRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
-        
+
         const vCards = valueCardsRef.current.filter(Boolean);
         const vIcons = valueIconsRef.current.filter(Boolean);
         if (vCards.length) {
@@ -302,13 +303,13 @@ function AboutPage() {
           scrollTrigger: { trigger: structureSectionRef.current, start: "top 80%", once: true, invalidateOnRefresh: true }
         });
         tl.fromTo(structureTextRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
-        
+
         const lines = branchLinesRef.current.filter(Boolean);
         if (lines.length) {
           // simple scaleY animation for CSS-based lines instead of SVG dashoffset
           tl.fromTo(lines, { scaleY: 0, transformOrigin: "top" }, { scaleY: 1, duration: 0.5, stagger: 0.1, ease: "power2.out" }, "-=0.2");
         }
-        
+
         const nodes = structureNodesRef.current.filter(Boolean);
         if (nodes.length) {
           tl.fromTo(nodes, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.1, ease: "power2.out" }, "-=0.4");
@@ -321,16 +322,17 @@ function AboutPage() {
           scrollTrigger: { trigger: profilesSectionRef.current, start: "top 80%", once: true, invalidateOnRefresh: true }
         });
         tl.fromTo(profilesTextRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
-        
+
         const rows = profileRowsRef.current.filter(Boolean);
         if (rows.length) {
           rows.forEach((row, i) => {
-             gsap.fromTo(row, 
-               { opacity: 0, y: 30 }, 
-               { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", 
-                 scrollTrigger: { trigger: row, start: "top 85%", once: true, invalidateOnRefresh: true }
-               }
-             );
+            gsap.fromTo(row,
+              { opacity: 0, y: 30 },
+              {
+                opacity: 1, y: 0, duration: 0.6, ease: "power2.out",
+                scrollTrigger: { trigger: row, start: "top 85%", once: true, invalidateOnRefresh: true }
+              }
+            );
           });
         }
       }
@@ -341,17 +343,17 @@ function AboutPage() {
           scrollTrigger: { trigger: integratedSectionRef.current, start: "top 80%", once: true, invalidateOnRefresh: true }
         });
         tl.fromTo(integratedTextRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
-        
+
         const fNodes = flowNodesRef.current.filter(Boolean);
         const fArrows = flowArrowsRef.current.filter(Boolean);
-        
+
         if (fNodes.length) {
           tl.fromTo(fNodes, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4, stagger: 0.2, ease: "power2.out" }, "-=0.2");
         }
         if (fArrows.length) {
           tl.fromTo(fArrows, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.3, stagger: 0.2, ease: "power2.out" }, "<0.1");
         }
-        
+
         tl.fromTo(closingTextRef.current, { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.8, ease: "power2.out" }, "+=0.3");
       }
 
@@ -362,7 +364,7 @@ function AboutPage() {
 
   return (
     <div className="min-h-screen bg-background font-sans" ref={containerRef}>
-      
+
       {/* 0. Header (Reused from index.tsx) */}
       <header className="absolute inset-x-0 top-0 z-30">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-5 md:px-10">
@@ -380,8 +382,8 @@ function AboutPage() {
                 key={item.name}
                 to={item.href}
                 className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors hover:text-foreground ${item.name === "About"
-                    ? "border-b border-brand-bright pb-1 text-foreground"
-                    : "text-muted-foreground"
+                  ? "border-b border-brand-bright pb-1 text-foreground"
+                  : "text-muted-foreground"
                   }`}
               >
                 {item.name}
@@ -399,9 +401,9 @@ function AboutPage() {
 
       {/* 1. Page Hero */}
       <section className="relative h-[60vh] min-h-[400px] w-full flex items-center justify-center overflow-hidden">
-        <img 
-          src={heroImg} 
-          alt="ETEMAAD100 Group Hero" 
+        <img
+          src={heroImg}
+          alt="ETEMAAD100 Group Hero"
           className="absolute inset-0 w-full h-full object-cover object-center brightness-50"
         />
         <div className="absolute inset-0 bg-ink/70" />
@@ -437,7 +439,7 @@ function AboutPage() {
             {SUBSIDIARIES.map((sub, i) => {
               const Icon = sub.icon;
               return (
-                <div 
+                <div
                   key={sub.name}
                   ref={(el) => { subsidiaryCardsRef.current[i] = el; }}
                   className="bg-ink-soft border border-border p-6 rounded-lg text-center flex flex-col items-center"
@@ -461,7 +463,7 @@ function AboutPage() {
               Chairman / CEO
             </h2>
           </div>
-          <div 
+          <div
             ref={ceoTextRef}
             className="border-l-2 border-brand-bright pl-6 md:pl-10 text-slate-300 space-y-6"
           >
@@ -497,7 +499,7 @@ function AboutPage() {
               ETEMAAD100 GROUP aims to become a recognized and trusted business group by developing quality projects, creating meaningful investment opportunities, promoting local resources, and contributing to sustainable economic growth in Pakistan.
             </p>
           </div>
-          
+
           <div ref={missionRef} className="bg-ink-soft p-10 lg:p-16 border border-border/50 rounded-xl">
             <p className="label-eyebrow mb-6 text-brand-bright">Our Mission</p>
             <p className="text-lg md:text-xl font-light text-slate-200 leading-relaxed italic">
@@ -519,21 +521,21 @@ function AboutPage() {
               The Principles That Guide Us
             </h2>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 gap-y-12">
             {CORE_VALUES.map((val, i) => {
               const Icon = val.icon;
               return (
-                <div 
+                <div
                   key={val.title}
                   ref={(el) => { valueCardsRef.current[i] = el; }}
                   className="px-4 text-center group"
                 >
                   <div className="mx-auto w-12 h-12 bg-ink border border-border rounded-full flex items-center justify-center mb-6 transition-colors group-hover:border-brand-bright/50">
-                    <Icon 
+                    <Icon
                       ref={(el) => { valueIconsRef.current[i] = el as unknown as SVGSVGElement; }}
-                      className="h-5 w-5 text-brand-bright" 
-                      strokeWidth={1.5} 
+                      className="h-5 w-5 text-brand-bright"
+                      strokeWidth={1.5}
                     />
                   </div>
                   <h3 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-200 mb-3 h-8 flex items-center justify-center">
@@ -613,17 +615,17 @@ function AboutPage() {
             </div>
 
             {/* Vertical Line from top node */}
-            <div 
+            <div
               ref={(el) => { branchLinesRef.current[0] = el as unknown as SVGPathElement; }}
-              className="w-px h-12 bg-brand-bright/50 my-2" 
+              className="w-px h-12 bg-brand-bright/50 my-2"
             />
 
             {/* Horizontal Line bridging the children */}
             <div className="hidden lg:block w-[80%] max-w-[900px] h-px bg-brand-bright/50 relative">
-              <div 
+              <div
                 ref={(el) => { branchLinesRef.current[1] = el as unknown as SVGPathElement; }}
-                className="absolute inset-0 bg-brand-bright/50 origin-center scale-x-0 transition-transform" 
-                style={{ transform: "scaleX(1)" }} 
+                className="absolute inset-0 bg-brand-bright/50 origin-center scale-x-0 transition-transform"
+                style={{ transform: "scaleX(1)" }}
               />
             </div>
 
@@ -632,11 +634,11 @@ function AboutPage() {
               {COMPANY_PROFILES.map((c, i) => (
                 <div key={c.slug} className="flex flex-col items-center flex-1">
                   {/* Vertical drop lines for desktop */}
-                  <div 
-                    ref={(el) => { branchLinesRef.current[i+2] = el as unknown as SVGPathElement; }}
-                    className="hidden lg:block w-px h-8 bg-brand-bright/30 mb-4" 
+                  <div
+                    ref={(el) => { branchLinesRef.current[i + 2] = el as unknown as SVGPathElement; }}
+                    className="hidden lg:block w-px h-8 bg-brand-bright/30 mb-4"
                   />
-                  <div 
+                  <div
                     ref={(el) => { structureNodesRef.current[i] = el; }}
                     className="bg-ink border border-border p-5 rounded-lg text-center w-full max-w-[300px] h-full flex flex-col justify-center transition-colors hover:border-brand-bright/40"
                   >
@@ -665,7 +667,7 @@ function AboutPage() {
 
           <div className="space-y-6">
             {COMPANY_PROFILES.map((c, i) => (
-              <div 
+              <div
                 key={c.slug}
                 ref={(el) => { profileRowsRef.current[i] = el; }}
                 className="bg-ink-soft border border-border p-8 rounded-xl flex flex-col md:flex-row gap-8 items-start md:items-center hover:bg-ink-soft/80 transition-colors"
@@ -679,7 +681,7 @@ function AboutPage() {
                   <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl">{c.desc}</p>
                 </div>
                 <div className="flex-shrink-0 mt-4 md:mt-0">
-                  <Link 
+                  <Link
                     to={`/companies/${c.slug}`}
                     className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white hover:text-brand-bright transition-colors"
                   >
@@ -705,16 +707,16 @@ function AboutPage() {
           <div className="flex flex-col lg:flex-row items-center justify-center gap-4 lg:gap-2 max-w-6xl mx-auto flex-wrap">
             {["Real Estate", "Mining & Minerals", "Value-Added Products", "Commercial Development", "Tourism", "Investment Opportunities"].map((step, i, arr) => (
               <div key={step} className="flex flex-col lg:flex-row items-center gap-4 lg:gap-2">
-                <div 
+                <div
                   ref={(el) => { flowNodesRef.current[i] = el; }}
                   className="bg-ink border border-border/80 px-6 py-4 rounded-full min-w-[200px]"
                 >
                   <span className="text-[11px] font-semibold text-slate-200 uppercase tracking-wider">{step}</span>
                 </div>
                 {i < arr.length - 1 && (
-                  <ArrowRight 
+                  <ArrowRight
                     ref={(el) => { flowArrowsRef.current[i] = el as unknown as SVGSVGElement; }}
-                    className="w-5 h-5 text-brand-bright rotate-90 lg:rotate-0" 
+                    className="w-5 h-5 text-brand-bright rotate-90 lg:rotate-0"
                   />
                 )}
               </div>
@@ -731,9 +733,9 @@ function AboutPage() {
       </section>
 
       {/* 10. CTA (Reused from index.tsx) */}
-      <section id="contact" className="relative isolate overflow-hidden bg-ink">
-        <div className="mx-auto grid max-w-[1400px] items-center gap-10 px-5 py-20 md:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,1fr)]">
-          <h2 className="text-4xl font-light uppercase leading-[1.15] tracking-tight sm:text-5xl">
+      <section id="contact" className="relative isolate overflow-hidden bg-ink min-h-[600px] lg:min-h-[750px] flex items-center">
+        <div className="mx-auto grid w-full max-w-[1400px] items-center gap-12 sm:gap-16 lg:gap-24 px-5 py-20 md:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,1fr)]">
+          <h2 className="text-5xl font-light uppercase leading-[1.15] tracking-tight sm:text-6xl lg:text-7xl">
             Let&apos;s Build the
             <br />
             <span className="text-brand-bright">Future</span>
@@ -741,31 +743,31 @@ function AboutPage() {
             Together
           </h2>
           <div>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-base sm:text-lg leading-relaxed text-muted-foreground">
               We believe in partnerships that create impact. Let&apos;s start a conversation.
             </p>
             <Link
               to="/#contact"
-              className="mt-6 inline-flex items-center gap-6 rounded-sm border border-brand-bright/70 px-7 py-3 text-[10px] font-semibold uppercase tracking-[0.22em] transition-colors hover:bg-brand/25"
+              className="mt-6 sm:mt-8 inline-flex items-center gap-6 rounded-sm border border-brand-bright/70 px-9 py-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.22em] transition-colors hover:bg-brand/25"
             >
-              Get in Touch <ArrowRight className="h-3.5 w-3.5" />
+              Get in Touch <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
             </Link>
           </div>
-          <div className="relative flex h-[220px] items-end justify-center sm:h-[260px]">
-            <div className="mountain-arc-glow absolute left-1/2 top-6 h-[196px] w-[320px] -translate-x-1/2 rounded-t-full sm:h-[236px]" />
+          <div className="relative flex h-[320px] sm:h-[420px] lg:h-[480px] items-end justify-center w-full max-w-full">
+            <div className="mountain-arc-glow absolute left-1/2 top-4 sm:top-6 lg:top-8 h-[280px] w-[320px] sm:h-[380px] sm:w-[420px] lg:h-[440px] lg:w-[480px] -translate-x-1/2 rounded-t-full max-w-[90%]" />
             <img
               src={peakImg}
               alt="Dark mountain peak"
               width={1024}
               height={1024}
               loading="lazy"
-              className="relative h-[190px] w-[260px] object-cover object-bottom mix-blend-lighten"
+              className="relative h-[280px] w-[320px] sm:h-[380px] sm:w-[420px] lg:h-[440px] lg:w-[480px] max-w-[90%] object-cover object-bottom mix-blend-lighten"
             />
             <img
               src={logo}
               alt=""
               aria-hidden="true"
-              className="absolute right-0 top-0 h-14 w-14 object-contain"
+              className="absolute right-4 top-4 h-16 w-16 sm:h-20 sm:w-20 object-contain"
             />
           </div>
         </div>
