@@ -1,5 +1,9 @@
-import { useRef } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { useRef, useEffect, useLayoutEffect } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 import {
   ArrowRight,
   Building2,
@@ -21,8 +25,8 @@ import {
 
 import { HeroPortal } from "@/components/hero-portal";
 import { AboutSection } from "@/components/about-section";
+import { VisionSlideshow } from "@/components/vision-slideshow";
 import logo from "@/assets/logo.png";
-import visionImg from "@/assets/section2_mountain_image.jpeg";
 import ridgeImg from "@/assets/ridge.jpg";
 import peakImg from "@/assets/peak.jpg";
 
@@ -47,7 +51,13 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const NAV = ["Home", "About", "Group Companies", "Our Legacy", "Contact"];
+const NAV = [
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Group Companies", href: "/#group-companies" },
+  { name: "Our Legacy", href: "/#our-legacy" },
+  { name: "Contact", href: "/#contact" }
+];
 
 const VALUES = [
   { icon: ShieldCheck, title: "Trust", body: "The foundation of everything we build." },
@@ -79,6 +89,55 @@ const STATS = [
 
 function Index() {
   const visionRef = useRef<HTMLDivElement>(null);
+  const legacySectionRef = useRef<HTMLElement>(null);
+  const legacyTextRef = useRef<HTMLDivElement>(null);
+  const legacyCardsRef = useRef<Array<HTMLDivElement | null>>([]);
+  const legacyIconsRef = useRef<Array<SVGSVGElement | null>>([]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      if (!legacySectionRef.current) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: legacySectionRef.current,
+          start: "top 80%",
+          once: true,
+        },
+      });
+
+      tl.fromTo(
+        legacyTextRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+      );
+
+      const cards = legacyCardsRef.current.filter(Boolean);
+      const icons = legacyIconsRef.current.filter(Boolean);
+
+      if (cards.length) {
+        tl.fromTo(
+          cards,
+          { opacity: 0, y: 24 },
+          { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, ease: "power2.out" },
+          "-=0.4"
+        );
+        if (icons.length) {
+          tl.fromTo(
+            icons,
+            { scale: 0.8 },
+            { scale: 1, duration: 0.5, stagger: 0.12, ease: "back.out(1.5)" },
+            "<"
+          );
+        }
+      }
+    }, legacySectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background font-sans">
@@ -96,17 +155,16 @@ function Index() {
 
           <nav className="hidden items-center gap-8 lg:flex">
             {NAV.map((item, i) => (
-              <a
-                key={item}
-                href="#home"
-                className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors hover:text-foreground ${
-                  i === 0
-                    ? "border-b border-brand-bright pb-1 text-foreground"
-                    : "text-muted-foreground"
-                }`}
+              <Link
+                key={item.name}
+                to={item.href}
+                className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors hover:text-foreground ${i === 0
+                  ? "border-b border-brand-bright pb-1 text-foreground"
+                  : "text-muted-foreground"
+                  }`}
               >
-                {item}
-              </a>
+                {item.name}
+              </Link>
             ))}
             <a
               href="#contact"
@@ -124,74 +182,13 @@ function Index() {
       {/* 2. Your separate About section with 3-Cards reveal */}
       <AboutSection />
 
-      {/* Vision */}
-      <section className="relative isolate overflow-hidden bg-ink-soft">
-        {/* Right-side Image Container */}
-        <div className="absolute bottom-0 right-0 h-[320px] w-full sm:inset-y-0 sm:h-full sm:w-[45%] md:w-[48%] lg:w-[53%] xl:w-[55%] z-0">
-          <img
-            src={visionImg}
-            alt="Modern dark architectural building with blue neon lighting against mountains"
-            width={1076}
-            height={463}
-            loading="lazy"
-            className="h-full w-full object-cover object-center brightness-[1.35] contrast-110 saturate-[1.15]"
-          />
-          {/* Mobile top-to-bottom fade */}
-          <div 
-            className="absolute inset-0 sm:hidden"
-            style={{
-              background: "linear-gradient(to bottom, var(--ink-soft) 0%, color-mix(in oklab, var(--ink-soft) 80%, transparent) 35%, transparent 100%)"
-            }}
-          />
-          {/* Tablet/Desktop left-to-right fade */}
-          <div 
-            className="absolute inset-0 hidden sm:block"
-            style={{
-              background: "linear-gradient(to right, var(--ink-soft) 0%, color-mix(in oklab, var(--ink-soft) 80%, transparent) 25%, color-mix(in oklab, var(--ink-soft) 30%, transparent) 55%, transparent 100%)"
-            }}
-          />
-        </div>
-
-        {/* Content Wrapper */}
-        <div
-          ref={visionRef}
-          className="relative z-10 mx-auto grid max-w-[1400px] items-center gap-10 px-5 pb-[340px] pt-24 md:px-10 sm:py-24 lg:grid-cols-2 lg:gap-16 lg:py-32"
-        >
-          <div className="sm:max-w-[50%] lg:max-w-none">
-            <p className="label-eyebrow">Welcome to</p>
-            <h2 className="mt-4 text-4xl font-light leading-[1.15] tracking-tight sm:text-5xl">
-              Five Ventures.
-              <br />
-              One <span className="text-brand-bright">Vision.</span>
-            </h2>
-            <p className="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground">
-              ETEMAAD100 Group is a Chitral-rooted holding company committed to building trusted
-              businesses that create lasting value for generations.
-            </p>
-            <a
-              href="#companies"
-              className="mt-8 inline-block rounded-sm border border-border px-7 py-3 text-[10px] font-semibold uppercase tracking-[0.22em] transition-colors hover:bg-brand/20"
-            >
-              Explore the Group
-            </a>
-          </div>
-
-          <div className="relative hidden lg:block">
-            <div className="absolute right-4 top-1/2 flex -translate-y-1/2 flex-col gap-4 text-[10px] tracking-widest">
-              {["01", "02", "03", "04", "05"].map((n, i) => (
-                <span key={n} className={i === 0 ? "text-foreground" : "text-muted-foreground/50"}>
-                  {n}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Vision — now doubles as the pinned scroll-driven companies slideshow */}
+      <VisionSlideshow visionRef={visionRef} />
 
       {/* Legacy / values */}
-      <section className="bg-ink">
+      <section className="bg-ink" ref={legacySectionRef}>
         <div className="mx-auto grid max-w-[1400px] gap-12 px-5 py-20 md:px-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,2fr)] lg:gap-20">
-          <div>
+          <div ref={legacyTextRef}>
             <p className="label-eyebrow">Our Legacy</p>
             <h2 className="mt-4 text-3xl font-light leading-[1.2] sm:text-4xl">
               Built on Trust.
@@ -209,59 +206,26 @@ function Index() {
           </div>
 
           <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-3 lg:grid-cols-5 lg:divide-x lg:divide-border">
-            {VALUES.map(({ icon: Icon, title, body }) => (
-              <div key={title} className="px-2 text-center lg:px-5">
-                <Icon className="mx-auto h-7 w-7 text-brand-bright" strokeWidth={1.3} />
+            {VALUES.map(({ icon: Icon, title, body }, i) => (
+              <div
+                key={title}
+                className="px-2 text-center lg:px-5"
+                ref={(el) => {
+                  legacyCardsRef.current[i] = el;
+                }}
+              >
+                <Icon
+                  ref={(el) => {
+                    legacyIconsRef.current[i] = el as unknown as SVGSVGElement;
+                  }}
+                  className="mx-auto h-7 w-7 text-brand-bright"
+                  strokeWidth={1.3}
+                />
                 <h3 className="mt-4 text-[11px] font-semibold uppercase tracking-[0.2em]">
                   {title}
                 </h3>
                 <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">{body}</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Companies */}
-      <section id="companies" className="relative isolate overflow-hidden">
-        <img
-          src={ridgeImg}
-          alt=""
-          aria-hidden="true"
-          width={1920}
-          height={700}
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover opacity-60"
-        />
-        <div className="absolute inset-0 bg-ink/80" />
-        <div className="relative mx-auto grid max-w-[1400px] items-center gap-10 px-5 py-20 md:px-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,2.2fr)]">
-          <div>
-            <p className="label-eyebrow">Our Group of Companies</p>
-            <h2 className="mt-4 text-3xl font-light leading-[1.2] sm:text-4xl">
-              Five Companies.
-              <br />
-              Endless <span className="text-brand-bright">Possibilities.</span>
-            </h2>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {COMPANIES.map(({ n, icon: Icon, name, tag }) => (
-              <article
-                key={n}
-                className="flex flex-col justify-between rounded-md border border-brand/40 card-sheen p-4 transition-colors hover:border-brand-bright/70"
-              >
-                <div>
-                  <span className="text-[10px] tracking-widest text-muted-foreground">{n}</span>
-                  <Icon className="mt-6 h-9 w-9 text-brand-bright" strokeWidth={1.3} />
-                  <h3 className="mt-6 text-[13px] font-medium leading-snug">{name}</h3>
-                </div>
-                <div className="mt-6 flex items-end justify-between gap-3">
-                  <p className="text-[10px] leading-relaxed text-muted-foreground">{tag}</p>
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-border">
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </span>
-                </div>
-              </article>
             ))}
           </div>
         </div>

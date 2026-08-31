@@ -43,7 +43,7 @@ export function HeroPortal({ logo, visionRef }: HeroPortalProps) {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=150%",
+          end: "+=75%",
           scrub: 1,
           pin: true,
           anticipatePin: 1,
@@ -103,6 +103,7 @@ export function HeroPortal({ logo, visionRef }: HeroPortalProps) {
         height={1088}
         className="absolute inset-0 h-full w-full object-cover"
         style={{ willChange: "transform" }}
+        onLoad={() => ScrollTrigger.refresh()}
       />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,var(--ink)_95%)]" />
 
