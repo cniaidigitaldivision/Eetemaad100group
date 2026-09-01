@@ -3,7 +3,7 @@ import { useEffect, useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import visionImg from "@/assets/vision-slide-wide-fit.jpg";
+import visionImg from "@/assets/vision-slide-wide-fit.png";
 
 // Avoids the "useLayoutEffect does nothing on the server" warning under SSR.
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;

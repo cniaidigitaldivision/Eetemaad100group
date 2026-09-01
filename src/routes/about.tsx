@@ -28,7 +28,7 @@ import * as Accordion from "@radix-ui/react-accordion";
 
 import logo from "@/assets/logo.png";
 import peakImg from "@/assets/peak.jpg";
-import heroImg from "@/assets/five-ventures-hero-image.jpg"; // Using the hero image as parallax background
+import heroImg from "@/assets/section2_mountain_image.jpeg"; // Using the hero image as parallax background
 
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
@@ -47,7 +47,7 @@ const NAV = [
   { name: "About", href: "/about" },
   { name: "Group Companies", href: "/#group-companies" },
   { name: "Our Legacy", href: "/#our-legacy" },
-  { name: "Contact", href: "/#contact" }
+  { name: "Contact", href: "/contact" }
 ];
 
 const SUBSIDIARIES = [
@@ -747,7 +747,7 @@ function AboutPage() {
               We believe in partnerships that create impact. Let&apos;s start a conversation.
             </p>
             <Link
-              to="/#contact"
+              to="/contact"
               className="mt-6 sm:mt-8 inline-flex items-center gap-6 rounded-sm border border-brand-bright/70 px-9 py-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.22em] transition-colors hover:bg-brand/25"
             >
               Get in Touch <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />

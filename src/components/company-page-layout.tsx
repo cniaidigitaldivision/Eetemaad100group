@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 
 import logo from "@/assets/logo.png";
-import peakImg from "@/assets/peak.jpg";
+import ctaImg from "@/assets/cta.jpg";
 import { CompanyData, companiesData } from "@/data/companies";
 
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -360,7 +360,7 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
           <div className="relative flex h-[320px] sm:h-[420px] lg:h-[480px] items-end justify-center w-full max-w-full">
             <div className="mountain-arc-glow absolute left-1/2 top-4 sm:top-6 lg:top-8 h-[280px] w-[320px] sm:h-[380px] sm:w-[420px] lg:h-[440px] lg:w-[480px] -translate-x-1/2 rounded-t-full max-w-[90%]" />
             <img
-              src={peakImg}
+              src={ctaImg}
               alt="Dark mountain peak"
               width={1024}
               height={1024}
