@@ -68,9 +68,9 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
       if (aboutSectionRef.current) {
         gsap.fromTo(
           aboutTextRef.current,
-          { opacity: 0, y: 30 },
+          { opacity: 0, y: 60 },
           {
-            opacity: 1, y: 0, duration: 0.8, ease: "power2.out",
+            opacity: 1, y: 0, duration: 1, ease: "power2.out",
             scrollTrigger: { trigger: aboutSectionRef.current, start: "top 80%", once: true, invalidateOnRefresh: true }
           }
         );
@@ -81,11 +81,11 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
         const tl = gsap.timeline({
           scrollTrigger: { trigger: detailsSectionRef.current, start: "top 80%", once: true, invalidateOnRefresh: true }
         });
-        tl.fromTo(detailsTitleRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
+        tl.fromTo(detailsTitleRef.current, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 1, ease: "power2.out" });
 
         const items = detailItemsRef.current.filter(Boolean);
         if (items.length) {
-          tl.fromTo(items, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: "power2.out" }, "-=0.3");
+          tl.fromTo(items, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: "power2.out" }, "-=0.6");
         }
       }
 
@@ -94,11 +94,11 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
         const tl = gsap.timeline({
           scrollTrigger: { trigger: otherCompaniesSectionRef.current, start: "top 85%", once: true, invalidateOnRefresh: true }
         });
-        tl.fromTo(otherCompaniesTextRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
+        tl.fromTo(otherCompaniesTextRef.current, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 1, ease: "power2.out" });
 
         const cards = otherCompanyCardsRef.current.filter(Boolean);
         if (cards.length) {
-          tl.fromTo(cards, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: "power2.out" }, "-=0.3");
+          tl.fromTo(cards, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: "power2.out" }, "-=0.6");
         }
       }
 
@@ -234,15 +234,44 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
             </span>
           </Link>
           <nav className="hidden items-center gap-8 lg:flex">
-            {NAV.map((item, i) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors hover:text-foreground text-muted-foreground`}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {NAV.map((item) => {
+              if (item.name === "Group Companies") {
+                return (
+                  <div key={item.name} className="relative group">
+                    <Link
+                      to={item.href}
+                      className="flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground py-2"
+                    >
+                      {item.name}
+                    </Link>
+                    {/* Dropdown Menu Wrapper with transparent bridge */}
+                    <div className="absolute left-1/2 top-full -translate-x-1/2 pt-2 opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300 z-50">
+                      <div className="flex w-72 flex-col rounded-xl border border-white/10 bg-black/80 p-2 backdrop-blur-md">
+                        {companiesData.map((c) => (
+                          <Link
+                            key={c.n}
+                            to={`/companies/${c.slug}` as any}
+                            className="block rounded-lg px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/50 transition-colors hover:bg-white/[0.06] hover:text-white"
+                          >
+                            {c.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+              
+              return (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors hover:text-foreground text-muted-foreground`}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
             <Link
               to="/#contact"
               className="rounded-full border border-brand-bright/70 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-brand/25"
@@ -263,11 +292,13 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
         <div className="absolute inset-0 bg-ink/50 mix-blend-multiply" />
 
         <div className="relative z-10 w-full max-w-[1000px] mx-auto px-5 pt-20" ref={heroTextRef}>
-          {/* Placeholder Logo */}
-          <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border border-brand-bright/50 bg-ink-soft/80 backdrop-blur flex items-center justify-center mb-8 mx-auto md:mx-0 shadow-[0_0_30px_rgba(0,210,255,0.15)]">
-            <span className="text-xl md:text-2xl font-light text-brand-bright uppercase tracking-widest">
-              {company.shortName || company.n}
-            </span>
+          {/* Company Logo */}
+          <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border border-brand-bright/50 bg-ink-soft/80 backdrop-blur flex items-center justify-center mb-8 mx-auto md:mx-0 shadow-[0_0_30px_rgba(0,210,255,0.15)] overflow-hidden">
+            <img
+              src={company.logo || logo}
+              alt={`${company.name} logo`}
+              className="w-full h-full object-contain p-2"
+            />
           </div>
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif text-white uppercase tracking-wider mb-4 text-center md:text-left">
@@ -279,9 +310,25 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
         </div>
       </section>
 
-      {/* 2. About This Company */}
-      <section className="bg-ink py-24 px-5 md:px-10" ref={aboutSectionRef}>
-        <div className="max-w-[1000px] mx-auto">
+      {/* LOWER SECTIONS WITH VIDEO BACKGROUND */}
+      <div className="relative overflow-hidden">
+        {/* Cinematic Video Background */}
+        <div className="absolute inset-0 z-0">
+          <video
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260508_064122_c4750c0e-7476-4b44-94a2-a85a65c63bf2.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+          />
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-[#0c0c0c]/85" />
+        </div>
+
+        {/* 2. About This Company */}
+        <section className="relative z-10 py-24 px-5 md:px-10" ref={aboutSectionRef}>
+          <div className="max-w-[1000px] mx-auto">
           <div ref={aboutTextRef} className="space-y-8">
             <p className="label-eyebrow text-brand-bright">About The Company</p>
             {company.aboutParagraphs.map((para, i) => (
@@ -295,7 +342,7 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
 
       {/* 3. Key Details */}
       {company.keyDetails && (
-        <section className="bg-ink-soft py-24 px-5 md:px-10 border-t border-border" ref={detailsSectionRef}>
+        <section className="relative z-10 py-24 px-5 md:px-10 border-t border-border/30" ref={detailsSectionRef}>
           <div className="max-w-[1000px] mx-auto">
             <div ref={detailsTitleRef}>
               <p className="label-eyebrow text-brand-bright mb-4">Highlights</p>
@@ -309,7 +356,7 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
       )}
 
       {/* 4. Back to Group / Related Companies */}
-      <section className="bg-ink py-20 px-5 md:px-10 border-y border-border" ref={otherCompaniesSectionRef}>
+      <section className="relative z-10 py-20 px-5 md:px-10 border-t border-border/30" ref={otherCompaniesSectionRef}>
         <div className="max-w-[1400px] mx-auto">
           <div ref={otherCompaniesTextRef} className="text-center mb-12">
             <p className="label-eyebrow text-muted-foreground mb-4">Part of ETEMAAD100 GROUP</p>
@@ -335,6 +382,7 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
       </section>
 
 
+      </div>
 
       {/* Footer */}
       <footer className="bg-ink border-t border-border/50">

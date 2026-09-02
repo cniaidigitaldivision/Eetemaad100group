@@ -1,3 +1,9 @@
+import logoGcHomes from "@/assets/logos/GC homes.jpeg";
+import logoGcRoyal from "@/assets/logos/GC royal.jpeg";
+import logoGita from "@/assets/logos/GTA.jpeg";
+import logoGulshanHomes from "@/assets/logos/Gulshane chitral homes.jpeg";
+import logoGemstones from "@/assets/logos/gemstones.jpeg";
+
 export type CompanyData = {
   slug: string;
   n: string;
@@ -5,6 +11,7 @@ export type CompanyData = {
   shortName?: string;
   field: string;
   image: string;
+  logo?: string;
   aboutParagraphs: string[];
   keyDetailsType: 'list' | 'cards' | 'table' | 'flow' | 'mixed';
   keyDetails?: any; 
@@ -18,6 +25,7 @@ export const companiesData: CompanyData[] = [
     name: "Gulshan-e-Chitral Homes (Pvt.) Ltd.",
     field: "Real Estate & Housing Development",
     image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1400",
+    logo: logoGulshanHomes,
     aboutParagraphs: [
       "Gulshan-e-Chitral Homes (Pvt.) Ltd. operates in the real estate and housing sector, developing and marketing housing projects under the Gulshan-e-Chitral Homes brand in Peshawar.",
       "Gulshan-e-Chitral Homes is focused on providing customers and investors with secure and well-planned residential property investment opportunities. The company aims to promote modern housing communities while creating long-term value for property owners and investors.",
@@ -40,6 +48,7 @@ export const companiesData: CompanyData[] = [
     name: "GC Homes (Pvt.) Ltd.",
     field: "Real Estate Marketing, Property Investment & Sales",
     image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1400",
+    logo: logoGcHomes,
     aboutParagraphs: [
       "GC Homes (Pvt.) Ltd. operates in the real estate sector, focusing on property marketing, acquisition, investment, and sales. The company works with different housing and real estate projects to provide customers and investors with diverse property opportunities."
     ],
@@ -72,6 +81,7 @@ export const companiesData: CompanyData[] = [
     name: "Chitral Gemstone (Pvt.) Ltd.",
     field: "Mining, Minerals, Gemstones, Jewelry, Handicrafts & Stone Processing",
     image: "https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?q=80&w=1400",
+    logo: logoGemstones,
     aboutParagraphs: [
       "Chitral Gemstone (Pvt.) Ltd. is the mining and minerals business of ETEMAAD100 GROUP, focused on exploring, developing, processing, and commercializing Chitral's natural mineral resources for national and international markets.",
       "The company aims to transform Chitral's rich mineral resources into high-value products while creating opportunities for investment, employment, and economic development.",
@@ -124,6 +134,7 @@ export const companiesData: CompanyData[] = [
     name: "GC Royal Emporium Chitral (Pvt.) Ltd.",
     field: "Shopping Mall, Commercial Real Estate, Retail & Residential Development",
     image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1400",
+    logo: logoGcRoyal,
     aboutParagraphs: [
       "GC Royal Emporium Chitral is being developed as a major shopping mall and business destination in Chitral city, designed to bring shopping, commercial, lifestyle, food, and residential facilities together under one development.",
       "GC Royal Emporium aims to establish a modern commercial destination in Chitral where shopping, food, lifestyle, residential, and essential business facilities can be accessed within a single integrated development."
@@ -158,6 +169,7 @@ export const companiesData: CompanyData[] = [
     shortName: "GITA",
     field: "Travel, Tourism & Transportation",
     image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1400",
+    logo: logoGita,
     aboutParagraphs: [
       "Gulshan International Travel Agency (GITA) is the Travel & Tourism business of ETEMAAD100 GROUP, providing travel, tourism, transportation, and tour-related services across Chitral and various destinations throughout Pakistan.",
       "GITA aims to connect travelers with Pakistan's diverse tourist destinations by providing convenient travel planning, tour arrangements, transportation, and tourism services."

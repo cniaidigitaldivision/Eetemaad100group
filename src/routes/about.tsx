@@ -25,8 +25,16 @@ import {
   Sprout
 } from "lucide-react";
 import * as Accordion from "@radix-ui/react-accordion";
+import { companiesData } from "@/data/companies";
 
 import logo from "@/assets/logo.png";
+import ceoImg from "@/assets/CEO.png";
+
+import logoGCHomes from "@/assets/logos/GC homes.jpeg";
+import logoGCRoyal from "@/assets/logos/GC royal.jpeg";
+import logoGITA from "@/assets/logos/GTA.jpeg";
+import logoGulshane from "@/assets/logos/Gulshane chitral homes.jpeg";
+import logoGemstones from "@/assets/logos/gemstones.jpeg";
 
 import heroImg from "@/assets/section2_mountain_image.jpeg"; // Using the hero image as parallax background
 
@@ -50,11 +58,11 @@ const NAV = [
 ];
 
 const SUBSIDIARIES = [
-  { icon: Home, name: "Gulshan-e-Chitral Homes", desc: "Real Estate & Housing Development" },
-  { icon: Building2, name: "GC Homes", desc: "Real Estate Marketing & Property Investment" },
-  { icon: Diamond, name: "Chitral Gemstone", desc: "Mining, Minerals, Gemstones & Jewelry" },
-  { icon: Sparkles, name: "GC Royal Emporium", desc: "Commercial & Residential Development" },
-  { icon: Plane, name: "GITA", desc: "Travel, Tourism & Transportation" },
+  { img: logoGulshane, name: "Gulshan-e-Chitral Homes", desc: "Real Estate & Housing Development" },
+  { img: logoGCHomes, name: "GC Homes", desc: "Real Estate Marketing & Property Investment" },
+  { img: logoGemstones, name: "Chitral Gemstone", desc: "Mining, Minerals, Gemstones & Jewelry" },
+  { img: logoGCRoyal, name: "GC Royal Emporium", desc: "Commercial & Residential Development" },
+  { img: logoGITA, name: "GITA", desc: "Travel, Tourism & Transportation" },
 ];
 
 const CORE_VALUES = [
@@ -365,7 +373,7 @@ function AboutPage() {
     <div className="min-h-screen bg-background font-sans" ref={containerRef}>
 
       {/* 0. Header (Reused from index.tsx) */}
-      <header className="absolute inset-x-0 top-0 z-30">
+      <header className="absolute inset-x-0 top-0 z-50">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-5 md:px-10">
           <Link to="/" className="flex items-center gap-3">
             <img src={logo} alt="ETEMAAD100 Group logo" className="h-14 w-14 md:h-16 md:w-16 object-contain" />
@@ -376,21 +384,50 @@ function AboutPage() {
             </span>
           </Link>
           <nav className="hidden items-center gap-8 lg:flex">
-            {NAV.map((item, i) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors hover:text-foreground ${item.name === "About"
-                  ? "border-b border-brand-bright pb-1 text-foreground"
-                  : "text-muted-foreground"
-                  }`}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {NAV.map((item) => {
+              if (item.name === "Group Companies") {
+                return (
+                  <div key={item.name} className="relative group">
+                    <Link
+                      to={item.href}
+                      className="flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground py-2"
+                    >
+                      {item.name}
+                    </Link>
+                    {/* Dropdown Menu Wrapper with transparent bridge */}
+                    <div className="absolute left-1/2 top-full -translate-x-1/2 pt-2 opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300 z-50">
+                      <div className="flex w-72 flex-col rounded-xl border border-white/10 bg-black/80 p-2 backdrop-blur-md shadow-2xl">
+                        {companiesData.map((c) => (
+                          <Link
+                            key={c.n}
+                            to={`/companies/${c.slug}` as any}
+                            className="block rounded-lg px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/50 transition-colors hover:bg-white/[0.06] hover:text-white"
+                          >
+                            {c.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors hover:text-foreground ${item.name === "About"
+                    ? "border-b border-blue-400 pb-1 text-foreground"
+                    : "text-muted-foreground"
+                    }`}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
             <Link
               to="/#contact"
-              className="rounded-full border border-brand-bright/70 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-brand/25"
+              className="rounded-full border border-blue-400/70 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-brand/25"
             >
               Stay Tuned
             </Link>
@@ -407,7 +444,7 @@ function AboutPage() {
         />
         <div className="absolute inset-0 bg-ink/70" />
         <div className="relative z-10 text-center px-5" ref={heroTextRef}>
-          <p className="label-eyebrow mb-4 text-brand-bright">About Us</p>
+          <p className="label-eyebrow mb-4 text-blue-400">About Us</p>
           <h1 className="text-4xl md:text-6xl font-serif text-white uppercase tracking-wider mb-6">
             Built on Trust.<br />Driven by Purpose.
           </h1>
@@ -418,10 +455,17 @@ function AboutPage() {
       </section>
 
       {/* 2. About ETEMAAD100 GROUP */}
-      <section className="bg-ink py-24 px-5 md:px-10" ref={introSectionRef}>
-        <div className="max-w-[1400px] mx-auto">
+      <section className="relative bg-[#060C14] py-32 px-5 md:px-10 overflow-hidden" ref={introSectionRef}>
+        {/* Geometric Overlay */}
+        <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,100,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,100,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
+          <div className="absolute right-0 top-0 w-96 h-96 bg-blue-900/20 blur-[100px] rounded-full mix-blend-screen" />
+          <div className="absolute left-0 bottom-0 w-[500px] h-[500px] bg-blue-900/10 blur-[120px] rounded-full mix-blend-screen" />
+        </div>
+
+        <div className="relative z-10 max-w-[1400px] mx-auto">
           <div className="max-w-4xl" ref={introTextRef}>
-            <p className="label-eyebrow mb-6">About ETEMAAD100 Group</p>
+            <p className="font-sans text-blue-400 font-semibold uppercase tracking-[0.2em] mb-6">About The Company</p>
             <p className="text-xl md:text-2xl font-light text-slate-200 leading-relaxed mb-8">
               As the Mother Company, ETEMAAD100 GROUP brings together a portfolio of specialized businesses working under a shared vision of quality, trust, innovation and sustainable growth.
             </p>
@@ -433,19 +477,34 @@ function AboutPage() {
             </p>
           </div>
 
-          <h3 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-bright mb-8">The Group operates through five key business entities:</h3>
+          <h3 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-400 mb-8">The Group operates through five key business entities:</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {SUBSIDIARIES.map((sub, i) => {
-              const Icon = sub.icon;
               return (
                 <div
                   key={sub.name}
                   ref={(el) => { subsidiaryCardsRef.current[i] = el; }}
-                  className="bg-ink-soft border border-border p-6 rounded-lg text-center flex flex-col items-center"
+                  className="group relative flex flex-col bg-slate-900/40 backdrop-blur-md rounded-xl overflow-hidden shadow-2xl shadow-[#020617]/80 hover:-translate-y-2 transition-all duration-500 border border-white/10 hover:bg-slate-900/60 hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)]"
                 >
-                  <Icon className="w-8 h-8 text-brand-bright mb-4" strokeWidth={1.5} />
-                  <h4 className="text-sm font-semibold uppercase tracking-wider text-slate-200 mb-2">{sub.name}</h4>
-                  <p className="text-[11px] text-muted-foreground">{sub.desc}</p>
+                  {/* Top section: Glassmorphism with Logo */}
+                  <div className="flex-1 p-8 flex flex-col items-center text-center">
+                    <div className="relative mb-6">
+                      <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-xl group-hover:bg-blue-500/30 transition-colors" />
+                      <div className="relative w-20 h-20 bg-[#0B1120] rounded-full flex items-center justify-center border border-white/10 p-3 shadow-inner overflow-hidden">
+                        <img src={sub.img} alt={sub.name} className="w-full h-full object-contain" />
+                      </div>
+                    </div>
+                    <h4 className="text-[13px] font-bold uppercase tracking-wider text-white leading-snug">
+                      {sub.name}
+                    </h4>
+                  </div>
+
+                  {/* Bottom section: Deep blue with off-white text */}
+                  <div className="bg-[#060C14]/80 backdrop-blur p-5 text-center border-t border-white/10 group-hover:border-blue-500/30 transition-colors">
+                    <p className="text-[10px] text-blue-100 uppercase tracking-widest font-medium leading-relaxed">
+                      {sub.desc}
+                    </p>
+                  </div>
                 </div>
               );
             })}
@@ -454,93 +513,163 @@ function AboutPage() {
       </section>
 
       {/* 3. Chairman/CEO Message */}
-      <section className="bg-ink-soft py-24 px-5 md:px-10 border-y border-border" ref={ceoSectionRef}>
-        <div className="max-w-[1400px] mx-auto grid lg:grid-cols-[1fr_2fr] gap-12">
-          <div>
-            <p className="label-eyebrow mb-4 text-brand-bright">Message from the</p>
-            <h2 className="text-3xl md:text-4xl font-serif text-white uppercase tracking-wider">
-              Chairman / CEO
-            </h2>
+      <section className="relative bg-[#060C14] py-32 px-5 md:px-10 overflow-hidden border-t border-white/5" ref={ceoSectionRef}>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#020617]/50 pointer-events-none" />
+
+        <div className="relative z-10 max-w-[1400px] mx-auto grid lg:grid-cols-[1fr_2fr] gap-16 items-center">
+
+          {/* Left: Portrait Area */}
+          <div className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 rounded-2xl overflow-hidden shadow-2xl shadow-black/50 border border-blue-500/10 group">
+            {/* CEO Portrait */}
+            <img 
+              src={ceoImg} 
+              alt="Chairman / CEO" 
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
           </div>
-          <div
-            ref={ceoTextRef}
-            className="border-l-2 border-brand-bright pl-6 md:pl-10 text-slate-300 space-y-6"
-          >
-            <p className="text-xl md:text-2xl font-light italic text-white">
-              "It gives me immense pleasure to welcome you to ETEMAAD100 GROUP. Our journey is built on a simple but powerful belief: business is not only about generating growth; it is about creating opportunities, building trust and contributing to the development of society."
-            </p>
-            <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
-              ETEMAAD100 GROUP was established with the vision of developing a diversified business platform capable of creating meaningful opportunities across different sectors of Pakistan's economy. Today, our Group operates through businesses covering real estate, housing, property investment, mining and minerals, gemstones, commercial development, retail, travel and tourism.
-            </p>
-            <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
-              Through Chitral Gemstone (Pvt.) Ltd., we are committed to unlocking the economic potential of Chitral's natural mineral resources. Our objective is not merely to extract minerals, but to develop a complete value chain—from mining and processing to cutting, polishing, manufacturing and introducing Chitral's gemstones and stone products to national and international markets.
-            </p>
-            <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
-              As we move forward, our priorities remain clear: quality, transparency, innovation, customer satisfaction and sustainable growth. We recognize that the trust of our customers, investors, business partners and communities is our greatest asset.
-            </p>
-            <div className="mt-10 pt-6 border-t border-border">
-              <p className="font-semibold text-white uppercase tracking-widest text-sm">Mir Azam</p>
-              <p className="text-[11px] text-brand-bright uppercase tracking-widest mt-1">Chairman / CEO, ETEMAAD100 GROUP</p>
+
+          {/* Right: Text Area */}
+          <div ref={ceoTextRef} className="flex flex-col justify-center">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif text-white uppercase tracking-widest mb-10 leading-tight">
+              CHAIRMAN / CEO <br className="hidden md:block" /> MESSAGE
+            </h2>
+            
+            <div className="space-y-8 text-slate-100 text-lg md:text-xl leading-[2.2] font-light">
+              <p className="text-2xl md:text-3xl italic font-serif text-white leading-relaxed">
+                "It gives me immense pleasure to welcome you to ETEMAAD100 GROUP. Our journey is built on a simple but powerful belief: business is not only about generating growth; it is about creating opportunities, building trust and contributing to the development of society."
+              </p>
+              <p>
+                ETEMAAD100 GROUP was established with the vision of developing a diversified business platform capable of creating meaningful opportunities across different sectors of Pakistan's economy. Today, our Group operates through businesses covering real estate, housing, property investment, mining and minerals, gemstones, commercial development, retail, travel and tourism.
+              </p>
+              <p>
+                Through Chitral Gemstone (Pvt.) Ltd., we are committed to unlocking the economic potential of Chitral's natural mineral resources. Our objective is not merely to extract minerals, but to develop a complete value chain—from mining and processing to cutting, polishing, manufacturing and introducing Chitral's gemstones and stone products to national and international markets.
+              </p>
+              <p>
+                As we move forward, our priorities remain clear: quality, transparency, innovation, customer satisfaction and sustainable growth. We recognize that the trust of our customers, investors, business partners and communities is our greatest asset.
+              </p>
+            </div>
+
+            {/* Subtle Divider */}
+            <div className="w-24 h-[1px] bg-blue-500/40 my-10" />
+
+            {/* Signature Line */}
+            <div>
+              <p className="font-serif text-3xl text-white mb-2 tracking-wide">Mir Azam</p>
+              <p className="text-[11px] text-blue-400 uppercase tracking-[0.2em] font-semibold">Chairman / CEO, ETEMAAD100 GROUP</p>
+              <p className="font-serif italic text-slate-400 mt-2 tracking-wider">Gulshan-e-Chitral Homes</p>
             </div>
           </div>
+
         </div>
       </section>
 
       {/* 4. Vision & Mission */}
-      <section className="bg-ink py-24 px-5 md:px-10 overflow-hidden" ref={visMissSectionRef}>
-        <div className="max-w-[1400px] mx-auto grid md:grid-cols-2 gap-12 lg:gap-24">
-          <div ref={visionRef} className="bg-ink-soft p-10 lg:p-16 border border-border/50 rounded-xl">
-            <p className="label-eyebrow mb-6 text-cyan-400">Our Vision</p>
-            <p className="text-lg md:text-xl font-light text-slate-200 leading-relaxed italic">
-              “To build a trusted, diversified and forward-looking business group that creates sustainable value through real estate, mining and minerals, commercial development, tourism and innovative business ventures.”
-            </p>
-            <p className="mt-8 text-sm text-muted-foreground leading-relaxed">
-              ETEMAAD100 GROUP aims to become a recognized and trusted business group by developing quality projects, creating meaningful investment opportunities, promoting local resources, and contributing to sustainable economic growth in Pakistan.
-            </p>
+      <section className="bg-[#020617] py-32 px-5 md:px-10 overflow-hidden" ref={visMissSectionRef}>
+        <div className="max-w-[1400px] mx-auto grid md:grid-cols-2 gap-12 lg:gap-16">
+
+          {/* Vision Panel */}
+          <div ref={visionRef} className="relative bg-[#060C14] p-10 lg:p-14 border border-blue-900/40 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden group">
+            {/* Geometric Edge Detailing */}
+            <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent border-t border-l border-blue-500/20 rounded-tl-2xl" />
+            <div className="absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-tl from-blue-500/10 to-transparent border-b border-r border-blue-500/20 rounded-br-2xl" />
+
+            <div className="relative z-10">
+              <h2 className="text-3xl md:text-4xl font-serif text-white mb-6 flex items-center gap-4">
+                Our Vision
+                <div className="flex-1 h-[1px] bg-blue-500/30" />
+              </h2>
+
+              <p className="text-lg md:text-xl font-light text-slate-200 leading-relaxed mb-8">
+                “To build a <span className="text-blue-400 font-medium">trusted, diversified</span> and forward-looking business group that creates <span className="text-blue-400 font-medium">sustainable value</span> across key economic sectors.”
+              </p>
+
+              <ul className="space-y-4">
+                {[
+                  "Develop premium real estate and commercial projects.",
+                  "Create secure, high-yield investment opportunities.",
+                  "Promote local resources and natural minerals.",
+                  "Drive sustainable economic growth in Pakistan."
+                ].map((point, i) => (
+                  <li key={i} className="flex items-start gap-4">
+                    <CheckCircle2 className="w-5 h-5 text-blue-400 mt-1 flex-shrink-0" />
+                    <span className="text-slate-300 leading-relaxed">{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          <div ref={missionRef} className="bg-ink-soft p-10 lg:p-16 border border-border/50 rounded-xl">
-            <p className="label-eyebrow mb-6 text-brand-bright">Our Mission</p>
-            <p className="text-lg md:text-xl font-light text-slate-200 leading-relaxed italic">
-              “To deliver quality products, reliable services and valuable investment opportunities while creating employment, promoting local resources, supporting communities and building long-term value for our customers, investors and business partners.”
-            </p>
-            <p className="mt-8 text-sm text-muted-foreground leading-relaxed">
-              We are committed to conducting our businesses with professionalism, transparency, innovation and customer focus. Through our companies and projects, we strive to connect local potential with national and international markets.
-            </p>
+          {/* Mission Panel */}
+          <div ref={missionRef} className="relative bg-[#060C14] p-10 lg:p-14 border border-blue-900/40 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden group">
+            {/* Geometric Edge Detailing */}
+            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-blue-500/10 to-transparent border-t border-r border-blue-500/20 rounded-tr-2xl" />
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-500/10 to-transparent border-b border-l border-blue-500/20 rounded-bl-2xl" />
+
+            <div className="relative z-10">
+              <h2 className="text-3xl md:text-4xl font-serif text-white mb-6 flex items-center gap-4">
+                Our Mission
+                <div className="flex-1 h-[1px] bg-blue-500/30" />
+              </h2>
+
+              <p className="text-lg md:text-xl font-light text-slate-200 leading-relaxed mb-8">
+                “To deliver <span className="text-blue-400 font-medium">quality products</span> and reliable services while building <span className="text-blue-400 font-medium">long-term value</span> for our customers and partners.”
+              </p>
+
+              <ul className="space-y-4">
+                {[
+                  "Uphold professionalism, transparency, and innovation.",
+                  "Deliver exceptional customer satisfaction and support.",
+                  "Create meaningful employment and support communities.",
+                  "Connect local potential with international markets."
+                ].map((point, i) => (
+                  <li key={i} className="flex items-start gap-4">
+                    <CheckCircle2 className="w-5 h-5 text-blue-400 mt-1 flex-shrink-0" />
+                    <span className="text-slate-300 leading-relaxed">{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
+
         </div>
       </section>
 
       {/* 5. Core Values */}
-      <section className="bg-ink-soft py-24 px-5 md:px-10" ref={valuesSectionRef}>
-        <div className="max-w-[1400px] mx-auto">
-          <div ref={valuesTextRef} className="text-center mb-16">
-            <p className="label-eyebrow">Our Core Values</p>
-            <h2 className="mt-4 text-3xl font-light leading-[1.2] sm:text-4xl text-white">
+      <section className="relative bg-[#060C14] py-32 px-5 md:px-10 overflow-hidden" ref={valuesSectionRef}>
+        {/* Geometric Overlay */}
+        <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,100,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,100,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
+          <div className="absolute left-1/2 top-0 w-[800px] h-[800px] -translate-x-1/2 bg-blue-900/10 blur-[150px] rounded-full mix-blend-screen" />
+        </div>
+
+        <div className="relative z-10 max-w-[1400px] mx-auto">
+          <div ref={valuesTextRef} className="text-center mb-20">
+            <p className="font-sans text-blue-400 font-semibold uppercase tracking-[0.2em] mb-4">Our Core Values</p>
+            <h2 className="text-3xl md:text-5xl font-serif text-white uppercase tracking-widest">
               The Principles That Guide Us
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 gap-y-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
             {CORE_VALUES.map((val, i) => {
               const Icon = val.icon;
               return (
                 <div
                   key={val.title}
                   ref={(el) => { valueCardsRef.current[i] = el; }}
-                  className="px-4 text-center group"
+                  className="bg-slate-100 p-6 rounded-2xl text-center shadow-[0_15px_40px_rgba(6,12,20,0.7)] border border-slate-300/40 hover:-translate-y-2 transition-transform duration-500 group flex flex-col items-center"
                 >
-                  <div className="mx-auto w-12 h-12 bg-ink border border-border rounded-full flex items-center justify-center mb-6 transition-colors group-hover:border-brand-bright/50">
+                  <div className="relative w-14 h-14 bg-[#060C14] rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.3)] mb-6 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]">
                     <Icon
                       ref={(el) => { valueIconsRef.current[i] = el as unknown as SVGSVGElement; }}
-                      className="h-5 w-5 text-brand-bright"
+                      className="h-6 w-6 text-slate-50"
                       strokeWidth={1.5}
                     />
                   </div>
-                  <h3 className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-200 mb-3 h-8 flex items-center justify-center">
+                  <h3 className="text-[12px] font-bold uppercase tracking-wider text-[#060C14] mb-3 leading-snug">
                     {val.title}
                   </h3>
-                  <p className="text-[11px] leading-relaxed text-muted-foreground">
+                  <p className="text-[11px] leading-relaxed text-slate-600 font-medium">
                     {val.body}
                   </p>
                 </div>
@@ -551,38 +680,49 @@ function AboutPage() {
       </section>
 
       {/* 6. Our Services (Radix Accordion) */}
-      <section className="bg-ink py-24 px-5 md:px-10 border-t border-border" ref={servicesSectionRef}>
-        <div className="max-w-[900px] mx-auto">
-          <div ref={servicesTextRef} className="text-center mb-16">
-            <p className="label-eyebrow text-cyan-400">Our Services</p>
-            <h2 className="mt-4 text-3xl font-light leading-[1.2] sm:text-4xl text-white mb-6">
+      <section className="bg-[#020617] py-32 px-5 md:px-10 border-t border-white/5" ref={servicesSectionRef}>
+        <div className="max-w-[1000px] mx-auto">
+          <div ref={servicesTextRef} className="text-center mb-20">
+            <p className="font-sans text-blue-400 font-semibold uppercase tracking-[0.2em] mb-4">Our Services</p>
+            <h2 className="mt-4 text-3xl md:text-5xl font-serif font-bold text-blue-400 uppercase tracking-widest mb-6">
               Diversified Portfolio
             </h2>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm md:text-base text-slate-300 max-w-3xl mx-auto leading-relaxed">
               ETEMAAD100 GROUP offers a diversified portfolio of products and services through its specialized companies operating in Real Estate, Housing, Property Investment, Mining & Minerals, Gemstones, Commercial Development, Retail, Travel and Tourism.
             </p>
           </div>
 
           <div ref={accordionRef}>
-            <Accordion.Root type="single" collapsible className="space-y-4">
+            <Accordion.Root type="single" collapsible className="space-y-6">
               {SERVICES.map((sector) => (
-                <Accordion.Item key={sector.id} value={sector.id} className="bg-ink-soft border border-border/50 rounded-lg overflow-hidden data-[state=open]:border-brand-bright/30 transition-colors">
+                <Accordion.Item key={sector.id} value={sector.id} className="relative bg-[#060C14] border border-blue-900/40 rounded-2xl overflow-hidden data-[state=open]:border-blue-500/40 transition-all duration-500 shadow-2xl shadow-black/40 group">
+                  {/* Geometric edge tracing */}
+                  <div className="absolute top-0 right-0 w-48 h-48 bg-[radial-gradient(ellipse_at_top_right,rgba(59,130,246,0.08),transparent_70%)] pointer-events-none" />
+
                   <Accordion.Header>
-                    <Accordion.Trigger className="w-full flex items-center justify-between p-6 text-left group">
-                      <span className="text-sm font-semibold uppercase tracking-wider text-slate-200 group-hover:text-brand-bright transition-colors">
+                    <Accordion.Trigger className="w-full flex items-center justify-between p-8 text-left outline-none cursor-pointer">
+                      <span className="text-sm md:text-base font-bold uppercase tracking-widest text-slate-100 group-hover:text-blue-400 transition-colors">
                         {sector.title}
                       </span>
-                      <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform duration-300 group-data-[state=open]:rotate-90 group-data-[state=open]:text-brand-bright" />
+                      <div className="w-10 h-10 rounded-full border border-blue-500/30 flex items-center justify-center group-data-[state=open]:bg-blue-500/10 group-data-[state=open]:border-blue-500/50 transition-colors flex-shrink-0">
+                        <ArrowRight className="w-5 h-5 text-blue-400 transition-transform duration-500 group-data-[state=open]:rotate-90" strokeWidth={1.5} />
+                      </div>
                     </Accordion.Trigger>
                   </Accordion.Header>
-                  <Accordion.Content className="overflow-hidden data-[state=closed]:animate-[accordion-up_0.3s_ease-out] data-[state=open]:animate-[accordion-down_0.3s_ease-out]">
-                    <div className="p-6 pt-0 border-t border-border/30">
-                      <p className="text-sm text-slate-300 mb-6 italic">{sector.description}</p>
-                      <div className="grid md:grid-cols-2 gap-6">
+                  <Accordion.Content className="overflow-hidden data-[state=closed]:animate-[accordion-up_0.4s_ease-out] data-[state=open]:animate-[accordion-down_0.4s_ease-out]">
+                    {/* Off-white inner panel */}
+                    <div className="bg-slate-50 p-8 md:p-10 border-t-2 border-blue-500/30">
+                      <p className="text-[13px] md:text-[14px] text-slate-600 mb-8 font-medium italic leading-relaxed max-w-4xl">{sector.description}</p>
+                      <div className="grid md:grid-cols-2 gap-x-12 gap-y-8">
                         {sector.items.map((item, idx) => (
-                          <div key={idx} className="bg-ink p-4 rounded border border-border/30">
-                            <h4 className="text-[11px] font-semibold text-brand-bright uppercase tracking-wider mb-2">{item.name}</h4>
-                            <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                          <div key={idx} className="flex gap-4">
+                            <div className="w-12 h-12 rounded-full bg-[#060C14] flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(59,130,246,0.25)]">
+                              <CheckCircle2 className="w-6 h-6 text-slate-50" strokeWidth={1.5} />
+                            </div>
+                            <div>
+                              <h4 className="text-[12px] md:text-[13px] font-bold text-[#060C14] uppercase tracking-wider mb-1.5 leading-snug">{item.name}</h4>
+                              <p className="text-[11px] md:text-[12px] text-slate-600 leading-relaxed font-medium">{item.desc}</p>
+                            </div>
                           </div>
                         ))}
                       </div>
@@ -607,7 +747,7 @@ function AboutPage() {
 
           <div className="flex flex-col items-center relative">
             {/* Top Node */}
-            <div className="bg-ink border border-brand-bright p-6 rounded-lg text-center z-10 shadow-[0_0_30px_rgba(0,210,255,0.1)] w-[280px]">
+            <div className="bg-ink border border-blue-400 p-6 rounded-lg text-center z-10 shadow-[0_0_30px_rgba(59,130,246,0.1)] w-[280px]">
               <img src={logo} alt="Logo" className="w-12 h-12 mx-auto mb-3" />
               <h3 className="text-sm font-bold tracking-widest text-white uppercase">ETEMAAD100 GROUP</h3>
               <p className="text-[10px] text-muted-foreground mt-2 uppercase tracking-widest">Mother Company</p>
@@ -616,14 +756,14 @@ function AboutPage() {
             {/* Vertical Line from top node */}
             <div
               ref={(el) => { branchLinesRef.current[0] = el as unknown as SVGPathElement; }}
-              className="w-px h-12 bg-brand-bright/50 my-2"
+              className="w-px h-12 bg-blue-400/50 my-2"
             />
 
             {/* Horizontal Line bridging the children */}
-            <div className="hidden lg:block w-[80%] max-w-[900px] h-px bg-brand-bright/50 relative">
+            <div className="hidden lg:block w-[80%] max-w-[900px] h-px bg-blue-400/50 relative">
               <div
                 ref={(el) => { branchLinesRef.current[1] = el as unknown as SVGPathElement; }}
-                className="absolute inset-0 bg-brand-bright/50 origin-center scale-x-0 transition-transform"
+                className="absolute inset-0 bg-blue-400/50 origin-center scale-x-0 transition-transform"
                 style={{ transform: "scaleX(1)" }}
               />
             </div>
@@ -635,14 +775,14 @@ function AboutPage() {
                   {/* Vertical drop lines for desktop */}
                   <div
                     ref={(el) => { branchLinesRef.current[i + 2] = el as unknown as SVGPathElement; }}
-                    className="hidden lg:block w-px h-8 bg-brand-bright/30 mb-4"
+                    className="hidden lg:block w-px h-8 bg-blue-400/30 mb-4"
                   />
                   <div
                     ref={(el) => { structureNodesRef.current[i] = el; }}
-                    className="bg-ink border border-border p-5 rounded-lg text-center w-full max-w-[300px] h-full flex flex-col justify-center transition-colors hover:border-brand-bright/40"
+                    className="bg-ink border border-border p-5 rounded-lg text-center w-full max-w-[300px] h-full flex flex-col justify-center transition-colors hover:border-blue-400/40"
                   >
                     <div className="w-8 h-8 rounded-full bg-ink-soft border border-border flex items-center justify-center mx-auto mb-3">
-                      <span className="text-[10px] font-bold text-brand-bright">{c.n}</span>
+                      <span className="text-[10px] font-bold text-blue-400">{c.n}</span>
                     </div>
                     <h4 className="text-[10px] font-semibold text-slate-200 uppercase tracking-wider mb-2">{c.name}</h4>
                     <p className="text-[9px] text-muted-foreground mt-auto">{c.field}</p>
@@ -658,7 +798,7 @@ function AboutPage() {
       <section className="bg-ink py-24 px-5 md:px-10" ref={profilesSectionRef}>
         <div className="max-w-[1200px] mx-auto">
           <div ref={profilesTextRef} className="mb-16">
-            <p className="label-eyebrow text-cyan-400">Our Companies</p>
+            <p className="label-eyebrow text-blue-400">Our Companies</p>
             <h2 className="mt-4 text-3xl font-light leading-[1.2] text-white">
               Specialized Business Sectors
             </h2>
@@ -671,18 +811,18 @@ function AboutPage() {
                 ref={(el) => { profileRowsRef.current[i] = el; }}
                 className="bg-ink-soft border border-border p-8 rounded-xl flex flex-col md:flex-row gap-8 items-start md:items-center hover:bg-ink-soft/80 transition-colors"
               >
-                <div className="flex-shrink-0 w-16 h-16 rounded-full border border-brand-bright/30 flex items-center justify-center text-2xl font-light text-brand-bright">
+                <div className="flex-shrink-0 w-16 h-16 rounded-full border border-blue-400/30 flex items-center justify-center text-2xl font-light text-blue-400">
                   {c.n}
                 </div>
                 <div className="flex-grow">
                   <h3 className="text-xl font-serif text-white uppercase tracking-wider mb-2">{c.name}</h3>
-                  <p className="text-xs font-semibold text-cyan-400 uppercase tracking-widest mb-4">{c.field}</p>
+                  <p className="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-4">{c.field}</p>
                   <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl">{c.desc}</p>
                 </div>
                 <div className="flex-shrink-0 mt-4 md:mt-0">
                   <Link
                     to={`/companies/${c.slug}`}
-                    className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white hover:text-brand-bright transition-colors"
+                    className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white hover:text-blue-400 transition-colors"
                   >
                     See Details <ArrowRight className="w-3 h-3" />
                   </Link>
@@ -715,7 +855,7 @@ function AboutPage() {
                 {i < arr.length - 1 && (
                   <ArrowRight
                     ref={(el) => { flowArrowsRef.current[i] = el as unknown as SVGSVGElement; }}
-                    className="w-5 h-5 text-brand-bright rotate-90 lg:rotate-0"
+                    className="w-5 h-5 text-blue-400 rotate-90 lg:rotate-0"
                   />
                 )}
               </div>
@@ -725,7 +865,7 @@ function AboutPage() {
           <div ref={closingTextRef} className="mt-32">
             <h2 className="text-4xl md:text-6xl font-light leading-[1.15] tracking-tight">
               Five Ventures.<br />
-              <span className="text-brand-bright font-serif italic pr-4">One Vision.</span>
+              <span className="text-blue-400 font-serif italic pr-4">One Vision.</span>
             </h2>
           </div>
         </div>
@@ -751,20 +891,20 @@ function AboutPage() {
           <div>
             <p className="label-eyebrow">Quick Links</p>
             <ul className="mt-4 space-y-2 text-[11px] text-muted-foreground">
-              <li><Link to="/" className="hover:text-brand-bright transition-colors">Home</Link></li>
-              <li><Link to="/about" className="hover:text-brand-bright transition-colors">About Us</Link></li>
-              <li><Link to="/contact" className="hover:text-brand-bright transition-colors">Contact</Link></li>
+              <li><Link to="/" className="hover:text-blue-400 transition-colors">Home</Link></li>
+              <li><Link to="/about" className="hover:text-blue-400 transition-colors">About Us</Link></li>
+              <li><Link to="/contact" className="hover:text-blue-400 transition-colors">Contact</Link></li>
             </ul>
           </div>
 
           <div>
             <p className="label-eyebrow">Our Companies</p>
             <ul className="mt-4 space-y-2 text-[11px] text-muted-foreground">
-              <li><Link to="/companies/gulshan-e-chitral-homes" className="hover:text-brand-bright transition-colors">Gulshan-e-Chitral Homes (Pvt.) Ltd.</Link></li>
-              <li><Link to="/companies/gc-homes" className="hover:text-brand-bright transition-colors">GC Homes (Pvt.) Ltd.</Link></li>
-              <li><Link to="/companies/chitral-gemstone" className="hover:text-brand-bright transition-colors">Chitral Gemstone (Pvt.) Ltd.</Link></li>
-              <li><Link to="/companies/gc-royal-emporium" className="hover:text-brand-bright transition-colors">GC Royal Emporium Chitral (Pvt.) Ltd.</Link></li>
-              <li><Link to="/companies/gita-travel" className="hover:text-brand-bright transition-colors">Gulshan International Travel Agency (GITA)</Link></li>
+              <li><Link to="/companies/gulshan-e-chitral-homes" className="hover:text-blue-400 transition-colors">Gulshan-e-Chitral Homes (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/gc-homes" className="hover:text-blue-400 transition-colors">GC Homes (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/chitral-gemstone" className="hover:text-blue-400 transition-colors">Chitral Gemstone (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/gc-royal-emporium" className="hover:text-blue-400 transition-colors">GC Royal Emporium Chitral (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/gita-travel" className="hover:text-blue-400 transition-colors">Gulshan International Travel Agency (GITA)</Link></li>
             </ul>
           </div>
 
