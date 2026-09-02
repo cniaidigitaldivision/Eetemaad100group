@@ -2,10 +2,6 @@ import { useRef, useEffect, useLayoutEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { CtaSection } from "@/components/cta-section";
-
-
-const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 import {
   ArrowRight,
   Building2,
@@ -24,8 +20,9 @@ import { AboutSection } from "@/components/about-section";
 import { VisionSlideshow } from "@/components/vision-slideshow";
 import { OurLegacySection } from "@/components/our-legacy-section";
 import { StatsSection } from "@/components/stats-section";
+import { Testimonials } from "@/components/Testimonials";
+import { CtaSection } from "@/components/cta-section";
 import logo from "@/assets/logo.png";
-import peakImg from "@/assets/peak.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -52,21 +49,21 @@ const NAV = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Group Companies", href: "/#group-companies" },
-  { name: "Our Legacy", href: "/#our-legacy" },
   { name: "Contact", href: "/contact" }
 ];
 
 
 
 const COMPANIES = [
-  { n: "01", icon: Home, name: "Gulshan e Chitral Homes Pvt Ltd", tag: "Residential Real Estate" },
-  { n: "02", icon: Building2, name: "GC Homes Pvt Ltd", tag: "Property Development" },
-  { n: "03", icon: Gem, name: "Chitral Gemstone Pvt Ltd", tag: "Precious Gemstones" },
-  { n: "04", icon: Sparkles, name: "GC Royal Emporium Chitral Pvt Ltd", tag: "Premium Retail" },
+  { n: "01", icon: Home, name: "Gulshan e Chitral Homes Pvt Ltd", slug: "gulshan-e-chitral-homes", tag: "Residential Real Estate" },
+  { n: "02", icon: Building2, name: "GC Homes Pvt Ltd", slug: "gc-homes", tag: "Property Development" },
+  { n: "03", icon: Gem, name: "Chitral Gemstone Pvt Ltd", slug: "chitral-gemstone", tag: "Precious Gemstones" },
+  { n: "04", icon: Sparkles, name: "GC Royal Emporium Chitral Pvt Ltd", slug: "gc-royal-emporium", tag: "Premium Retail" },
   {
     n: "05",
     icon: Plane,
     name: "GITA (Gulshan International Travel Agency Pvt Ltd)",
+    slug: "gita-travel",
     tag: "International Travel",
   },
 ];
@@ -91,18 +88,47 @@ function Index() {
           </a>
 
           <nav className="hidden items-center gap-8 lg:flex">
-            {NAV.map((item, i) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors hover:text-foreground ${i === 0
-                  ? "border-b border-brand-bright pb-1 text-foreground"
-                  : "text-muted-foreground"
-                  }`}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {NAV.map((item, i) => {
+              if (item.name === "Group Companies") {
+                return (
+                  <div key={item.name} className="relative group">
+                    <Link
+                      to={item.href}
+                      className="flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground py-2"
+                    >
+                      {item.name}
+                    </Link>
+                    {/* Dropdown Menu Wrapper with transparent bridge */}
+                    <div className="absolute left-1/2 top-full -translate-x-1/2 pt-2 opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300 z-50">
+                      <div className="flex w-72 flex-col rounded-xl border border-white/10 bg-black/80 p-2 backdrop-blur-md">
+                        {COMPANIES.map((c) => (
+                          <Link
+                            key={c.n}
+                            to={`/companies/${c.slug}` as any}
+                            className="block rounded-lg px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/50 transition-colors hover:bg-white/[0.06] hover:text-white"
+                          >
+                            {c.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+              
+              return (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors hover:text-foreground ${i === 0
+                    ? "border-b border-brand-bright pb-1 text-foreground"
+                    : "text-muted-foreground"
+                    }`}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
             <a
               href="#contact"
               className="rounded-full border border-brand-bright/70 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-brand/25"
@@ -116,24 +142,46 @@ function Index() {
       {/* 1. Your original Hero section */}
       <HeroPortal logo={logo} visionRef={visionRef} />
 
-      {/* 2. Your separate About section with 3-Cards reveal */}
-      <AboutSection />
+      {/* 2. About — highest stack, sits on top of everything below */}
+      <div className="relative z-30">
+        <AboutSection />
+      </div>
 
-      {/* Vision — now doubles as the pinned scroll-driven companies slideshow */}
-      <VisionSlideshow visionRef={visionRef} />
+      {/* 3. Vision — middle stack, pulled under About via -mt-[100vh] */}
+      <div className="relative z-20 -mt-[100vh]">
+        <VisionSlideshow visionRef={visionRef} />
+      </div>
 
-      {/* Legacy / values */}
-      <OurLegacySection />
+      {/* 4. Legacy / Stats — lowest stack, pulled under Vision pin-spacer */}
+      <div className="relative z-10 -mt-[100vh]">
 
-      {/* Stats */}
-      <StatsSection />
+        {/* Legacy stuck in place */}
+        <div className="sticky top-0 z-0">
+          <OurLegacySection />
+        </div>
+
+        {/*
+          Buffer Spacer: gives Legacy time to fully reveal before
+          Stats slides up. User scrolls through this empty space
+          while the Vision curtain is still rising.
+        */}
+        <div className="h-[100svh] w-full pointer-events-none" />
+
+        {/* Stats — slides up over Legacy */}
+        <div className="relative z-10">
+          <StatsSection />
+        </div>
+      </div>
+
+      {/* Testimonials */}
+      <Testimonials />
 
       {/* CTA */}
-      <CtaSection image={peakImg} logo={logo} href="/contact" />
+      <CtaSection />
 
       {/* Footer */}
       <footer className="bg-ink">
-        <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-14 md:px-10 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-14 md:px-10 lg:grid-cols-4">
           <div>
             <div className="flex items-center gap-3">
               <img src={logo} alt="ETEMAAD100 Group logo" className="h-11 w-11 object-contain" />
@@ -149,11 +197,22 @@ function Index() {
           </div>
 
           <div>
+            <p className="label-eyebrow">Quick Links</p>
+            <ul className="mt-4 space-y-2 text-[11px] text-muted-foreground">
+              <li><Link to="/" className="hover:text-brand-bright transition-colors">Home</Link></li>
+              <li><Link to="/about" className="hover:text-brand-bright transition-colors">About Us</Link></li>
+              <li><Link to="/contact" className="hover:text-brand-bright transition-colors">Contact</Link></li>
+            </ul>
+          </div>
+
+          <div>
             <p className="label-eyebrow">Our Companies</p>
             <ul className="mt-4 space-y-2 text-[11px] text-muted-foreground">
-              {COMPANIES.map((c) => (
-                <li key={c.n}>{c.name}</li>
-              ))}
+              <li><Link to="/companies/gulshan-e-chitral-homes" className="hover:text-brand-bright transition-colors">Gulshan-e-Chitral Homes (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/gc-homes" className="hover:text-brand-bright transition-colors">GC Homes (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/chitral-gemstone" className="hover:text-brand-bright transition-colors">Chitral Gemstone (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/gc-royal-emporium" className="hover:text-brand-bright transition-colors">GC Royal Emporium Chitral (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/gita-travel" className="hover:text-brand-bright transition-colors">Gulshan International Travel Agency (GITA)</Link></li>
             </ul>
           </div>
 
@@ -163,7 +222,7 @@ function Index() {
               {[Facebook, Linkedin, Instagram, Mail].map((Icon, i) => (
                 <a
                   key={i}
-                  href="#contact"
+                  href="/contact"
                   aria-label="Social link"
                   className="flex h-9 w-9 items-center justify-center rounded-full border border-border transition-colors hover:bg-brand/25"
                 >

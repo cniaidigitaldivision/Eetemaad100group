@@ -1,8 +1,9 @@
 "use client";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, type ReactNode } from "react";
 import {
   motion,
   useInView,
+  useReducedMotion,
   animate as motionAnimate,
 } from "motion/react";
 
@@ -133,6 +134,51 @@ function Typewriter({
 }
 
 // ---------------------------------------------------------------------------
+// CurtainReveal — scroll-triggered. The line sits under a panel painted in the
+// section's own background, so at rest the words are simply not there. Once
+// the heading is 40% into view the panel lifts straight up and off the top,
+// uncovering the words the way a stage curtain rises. Fires once.
+//
+// The panel matches the section background rather than being a visible colored
+// bar, so the eye reads "text being uncovered" instead of "block sliding away".
+// ---------------------------------------------------------------------------
+interface CurtainRevealProps {
+  children: ReactNode;
+  /** Seconds to hold before this line's curtain starts lifting. */
+  delay?: number;
+  className?: string;
+}
+
+function CurtainReveal({ children, delay = 0, className = "" }: CurtainRevealProps) {
+  const reduceMotion = useReducedMotion();
+
+  // Padding + matching negative margin gives descenders room inside the clip
+  // box without changing the heading's line rhythm.
+  const box = `relative block overflow-hidden pb-[0.14em] -mb-[0.14em] ${className}`;
+
+  if (reduceMotion) {
+    return <span className={box}>{children}</span>;
+  }
+
+  return (
+    <span className={box}>
+      {children}
+
+      <motion.span
+        aria-hidden="true"
+        // The hairline along the panel's lower edge is what makes the lift
+        // legible against a background of exactly the same color.
+        className="pointer-events-none absolute inset-0 bg-ink will-change-transform after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-brand-bright/35"
+        initial={{ y: "0%" }}
+        whileInView={{ y: "-100%" }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 1.05, delay, ease: [0.16, 1, 0.3, 1] }}
+      />
+    </span>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Container animation variants
 // ---------------------------------------------------------------------------
 const containerVariants = {
@@ -160,117 +206,121 @@ const MASK_URI =
 // ---------------------------------------------------------------------------
 // StatsSection
 // ---------------------------------------------------------------------------
+
 const STATS = [
-  { value: 15, suffix: "+", label: "Years of Trust" },
-  { value: 5, suffix: "", label: "Companies" },
-  { value: 250, suffix: "+", label: "Projects Completed" },
-  { value: 10, suffix: "K+", label: "Happy Clients" },
+  { value: 15,  suffix: "+",  label: "Years of Trust" },
+  { value: 5,   suffix: "",   label: "Companies" },
+  { value: 250, suffix: "+",  label: "Projects Completed" },
+  { value: 10,  suffix: "K+", label: "Happy Clients" },
 ];
 
 export function StatsSection() {
   return (
     <section
       id="stats"
-      className="bg-ink text-foreground py-8 md:py-24 px-6 md:px-12 lg:px-[120px] w-full border-t border-border overflow-hidden"
+      className="relative w-full overflow-hidden border-t border-white/10 text-white"
+      style={{ minHeight: "100vh" }}
     >
-      <div className="w-full max-w-[1440px] mx-auto">
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-[160px] items-stretch">
+      {/* ── Premium gradient background ── */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#0a0f1a] via-[#070c14] to-[#04060a]" />
+      {/* Ambient cyan glow — top centre */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          background:
+            "radial-gradient(600px circle at 50% 0%, rgba(0,210,255,0.08), transparent 65%)",
+        }}
+      />
+      {/* Ambient indigo glow — bottom right */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          background:
+            "radial-gradient(500px circle at 90% 100%, rgba(99,102,241,0.07), transparent 60%)",
+        }}
+      />
 
-          {/* ── Left column ── */}
-          <motion.div
-            className="flex-1 flex flex-col justify-start"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={containerVariants}
-          >
-            {/* Heading */}
-            <motion.h2
-              variants={itemVariants}
-              className="text-[clamp(1.5rem,4vw,3.5rem)] font-light tracking-tight mb-6 leading-[1.1] w-[590px] max-w-full"
-            >
-              <Typewriter text="Five Ventures." delay={0} speed={0.012} />
-              <br />
-              <Typewriter text="One " delay={0.25} speed={0.012} />
-              <span className="font-serif italic font-normal text-brand-bright">
-                <Typewriter text="Enduring Legacy" delay={0.35} speed={0.012} />
-              </span>
-            </motion.h2>
+      {/* ── Content wrapper ── */}
+      <div className="relative z-10 flex items-center min-h-[100vh]">
+        <div className="w-full max-w-6xl mx-auto px-6 md:px-12 lg:px-16 py-20">
+          <div className="flex flex-col lg:flex-row lg:items-center gap-14 lg:gap-20">
 
-            {/* Subtitle — Typewriter wraps word-by-word inside max-w-lg */}
-            <motion.p
-              variants={itemVariants}
-              className="text-base md:text-lg text-muted-foreground leading-relaxed font-light max-w-lg mb-16"
-            >
-              <Typewriter
-                text="For over 15 years, ETEMAAD100 Group has built trusted businesses across real estate, mining, retail, and travel — creating lasting value for the communities we serve."
-                delay={0.5}
-                speed={0.008}
-              />
-            </motion.p>
+            {/* ── LEFT: heading + sub-text ── */}
+            <div className="lg:w-5/12 flex-shrink-0">
+              {/* Eyebrow */}
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#A4F4FD] mb-5">
+                By The Numbers
+              </p>
 
-            {/* Stats grid */}
-            <div className="grid grid-cols-2 md:grid-cols-[max-content_max-content] gap-8 md:gap-x-16 lg:gap-x-24">
-              {STATS.map(({ value, suffix, label }) => (
-                <motion.div key={label} variants={itemVariants}>
-                  <p className="text-4xl md:text-5xl lg:text-[56px] font-serif tracking-tight mb-3 text-brand-bright leading-none">
-                    <AnimatedCounter value={value} suffix={suffix} />
-                  </p>
-                  <p className="text-[10px] md:text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                    {label}
-                  </p>
-                </motion.div>
-              ))}
+              {/* Heading */}
+              <h2 className="text-3xl md:text-4xl xl:text-5xl font-semibold tracking-tight leading-[1.1] mb-5">
+                Five Ventures.{" "}
+                <br />
+                <span className="font-serif italic font-normal text-[#A4F4FD]">
+                  One Enduring Legacy.
+                </span>
+              </h2>
+
+              {/* Sub-text */}
+              <p className="text-white/55 text-sm leading-[1.7] max-w-xs">
+                For over 15 years, ETEMAAD100 Group has built trusted businesses
+                across real estate, mining, retail, and travel — creating lasting
+                value for the communities we serve.
+              </p>
+
+              {/* Decorative accent */}
+              <div className="mt-8 h-px w-14 bg-gradient-to-r from-[#A4F4FD]/60 to-transparent" />
             </div>
-          </motion.div>
 
-          {/* ── Right column — markhor-silhouette masked image panel ── */}
-          <div className="flex justify-center lg:justify-end items-center shrink-0 lg:w-1/2">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1.05 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="relative w-full max-w-[500px] lg:w-[120%] lg:max-w-none aspect-square"
-              style={{
-                WebkitMaskImage: MASK_URI,
-                maskImage: MASK_URI,
-                WebkitMaskSize: "contain",
-                maskSize: "contain",
-                WebkitMaskRepeat: "no-repeat",
-                maskRepeat: "no-repeat",
-                WebkitMaskPosition: "center",
-                maskPosition: "center",
-              }}
-            >
-              {/* Ken Burns slow zoom — mountain/Chitral peak as placeholder visual */}
-              <motion.img
-                src={peakImg}
-                alt="Chitral mountains — ETEMAAD100 Group"
-                className="w-full h-full object-cover"
-                initial={{ scale: 1 }}
-                animate={{ scale: 1.12 }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  ease: "linear",
-                }}
-              />
+            {/* ── RIGHT: 2×2 stat grid ── */}
+            <div className="lg:w-7/12">
+              <div className="grid grid-cols-2 gap-4">
+                {STATS.map(({ value, suffix, label }, i) => (
+                  <motion.div
+                    key={label}
+                    initial={{ opacity: 0, y: 20, scale: 0.97 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{
+                      duration: 0.5,
+                      delay: i * 0.08,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    className="group relative overflow-hidden rounded-xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm p-5 transition-all duration-300 hover:border-[#A4F4FD]/30 hover:bg-white/[0.06]"
+                  >
+                    {/* Glowing left-edge accent bar */}
+                    <div className="absolute left-0 inset-y-0 w-[2px] bg-gradient-to-b from-[#A4F4FD]/80 via-[#A4F4FD]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-              {/* Brand tint overlay */}
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background:
-                    "radial-gradient(ellipse at center, color-mix(in oklab, var(--brand) 20%, transparent) 0%, transparent 70%)",
-                }}
-              />
-            </motion.div>
+                    {/* Top-right shimmer */}
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute -top-6 -right-6 h-16 w-16 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      style={{
+                        background:
+                          "radial-gradient(circle, rgba(164,244,253,0.14), transparent 70%)",
+                      }}
+                    />
+
+                    {/* Number */}
+                    <p className="text-[2.25rem] font-serif tracking-tight leading-none text-[#A4F4FD] mb-2">
+                      <AnimatedCounter value={value} suffix={suffix} />
+                    </p>
+
+                    {/* Label */}
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40 group-hover:text-white/65 transition-colors duration-300">
+                      {label}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
           </div>
-
         </div>
       </div>
+
     </section>
   );
 }

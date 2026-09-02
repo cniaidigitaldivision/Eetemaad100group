@@ -441,7 +441,14 @@ import {
   Facebook,
   Linkedin,
   Instagram,
+  Home,
+  Building2,
+  Gem,
+  Sparkles,
+  Plane,
 } from "lucide-react";
+
+import logo from "@/assets/logo.png";
 
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
@@ -469,13 +476,26 @@ export const Route = createFileRoute("/contact")({
 
 const NAV = [
   { name: "Home", href: "/" },
-  { name: "About", href: "/" },
-  { name: "Group Companies", href: "/" },
-  { name: "Our Legacy", href: "/" },
-  { name: "Contact", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Group Companies", href: "/#group-companies" },
+  { name: "Contact", href: "/contact" }
 ];
 
 const COMPANIES = [
+  { n: "01", icon: Home, name: "Gulshan e Chitral Homes Pvt Ltd", slug: "gulshan-e-chitral-homes", tag: "Residential Real Estate" },
+  { n: "02", icon: Building2, name: "GC Homes Pvt Ltd", slug: "gc-homes", tag: "Property Development" },
+  { n: "03", icon: Gem, name: "Chitral Gemstone Pvt Ltd", slug: "chitral-gemstone", tag: "Precious Gemstones" },
+  { n: "04", icon: Sparkles, name: "GC Royal Emporium Chitral Pvt Ltd", slug: "gc-royal-emporium", tag: "Premium Retail" },
+  {
+    n: "05",
+    icon: Plane,
+    name: "GITA (Gulshan International Travel Agency Pvt Ltd)",
+    slug: "gita-travel",
+    tag: "International Travel",
+  },
+];
+
+const FORM_SUBJECTS = [
   "General Inquiry",
   "Gulshan-e-Chitral Homes",
   "GC Homes",
@@ -690,31 +710,62 @@ function ContactPage() {
   return (
     <div ref={containerRef} className="min-h-screen overflow-x-hidden bg-background">
       {/* Header */}
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-border/50 bg-background/70 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 md:px-10">
+      <header className="absolute inset-x-0 top-0 z-30">
+        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-5 md:px-10">
           <Link to="/" className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[image:var(--gradient-brand)] text-sm font-bold text-primary-foreground">
-              E
-            </span>
-            <span className="font-display text-[11px] font-bold leading-[1.15] tracking-[0.12em]">
+            <img src={logo} alt="ETEMAAD100 Group logo" className="h-14 w-14 md:h-16 md:w-16 object-contain" />
+            <span className="text-[11px] font-bold leading-[1.15] tracking-[0.08em] text-foreground">
               ETEMAAD100
               <br />
               GROUP
             </span>
           </Link>
+
           <nav className="hidden items-center gap-8 lg:flex">
-            {NAV.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-primary"
-              >
-                {item.name}
-              </Link>
-            ))}
+            {NAV.map((item) => {
+              if (item.name === "Group Companies") {
+                return (
+                  <div key={item.name} className="relative group">
+                    <Link
+                      to={item.href}
+                      className="flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground py-2"
+                    >
+                      {item.name}
+                    </Link>
+                    {/* Dropdown Menu Wrapper with transparent bridge */}
+                    <div className="absolute left-1/2 top-full -translate-x-1/2 pt-2 opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300 z-50">
+                      <div className="flex w-72 flex-col rounded-xl border border-white/10 bg-black/80 p-2 backdrop-blur-md">
+                        {COMPANIES.map((c) => (
+                          <Link
+                            key={c.n}
+                            to={`/companies/${c.slug}` as any}
+                            className="block rounded-lg px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/50 transition-colors hover:bg-white/[0.06] hover:text-white"
+                          >
+                            {c.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+              
+              return (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors hover:text-foreground ${item.name === "Contact"
+                    ? "border-b border-brand-bright pb-1 text-foreground"
+                    : "text-muted-foreground"
+                    }`}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
             <a
               href="#message"
-              className="btn-hero rounded-full px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.2em]"
+              className="rounded-full border border-brand-bright/70 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-brand/25"
             >
               Stay Tuned
             </a>
@@ -748,13 +799,7 @@ function ContactPage() {
             Whether you have a general inquiry, want to explore investment opportunities, or learn
             more about our companies — we are here to help.
           </p>
-          <a
-            data-hero
-            href="#message"
-            className="btn-hero mt-10 inline-flex items-center gap-3 rounded-full px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em]"
-          >
-            Send a message <ArrowRight className="h-4 w-4" />
-          </a>
+
         </div>
       </section>
 
@@ -798,8 +843,11 @@ function ContactPage() {
             >
               <iframe
                 title="ETEMAAD100 Group office location in Chitral"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=71.77%2C35.83%2C71.82%2C35.87&layer=mapnik&marker=35.8518%2C71.7864"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3233.6570663318826!2d71.78482957453086!3d35.85741162027796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38db5300121e8919%3A0x14fc45062b66704b!2sGC%20ROYAL%20Emporium!5e0!3m2!1sen!2s!4v1788343875652!5m2!1sen!2s"
+                style={{ border: 0 }}
+                allowFullScreen
                 loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
                 className="h-[340px] w-full grayscale-[0.35] contrast-125"
               />
               <div className="pointer-events-none absolute inset-0 bg-[image:var(--gradient-aurora)] opacity-30" />
@@ -873,7 +921,7 @@ function ContactPage() {
                     Subject / interest
                   </label>
                   <select id="subject" required className="field-input appearance-none">
-                    {COMPANIES.map((c) => (
+                    {FORM_SUBJECTS.map((c) => (
                       <option key={c} value={c}>
                         {c}
                       </option>
@@ -913,14 +961,12 @@ function ContactPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/60 bg-ink-deep">
-        <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-14 md:px-10 lg:grid-cols-3">
+      <footer className="bg-ink">
+        <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-14 md:px-10 lg:grid-cols-4">
           <div>
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[image:var(--gradient-brand)] text-sm font-bold text-primary-foreground">
-                E
-              </span>
-              <span className="font-display text-[11px] font-bold leading-[1.15] tracking-[0.12em]">
+              <img src={logo} alt="ETEMAAD100 Group logo" className="h-11 w-11 object-contain" />
+              <span className="text-[11px] font-bold leading-[1.15] tracking-[0.08em]">
                 ETEMAAD100
                 <br />
                 GROUP
@@ -930,36 +976,45 @@ function ContactPage() {
               Built on Trust. Driven by Purpose.
             </p>
           </div>
+
           <div>
-            <p className="label-eyebrow">Quick links</p>
+            <p className="label-eyebrow">Quick Links</p>
             <ul className="mt-4 space-y-2 text-[11px] text-muted-foreground">
-              {["Home", "About", "Contact"].map((l) => (
-                <li key={l}>
-                  <Link to="/" className="transition-colors hover:text-primary">
-                    {l}
-                  </Link>
-                </li>
-              ))}
+              <li><Link to="/" className="hover:text-brand-bright transition-colors">Home</Link></li>
+              <li><Link to="/about" className="hover:text-brand-bright transition-colors">About Us</Link></li>
+              <li><Link to="/contact" className="hover:text-brand-bright transition-colors">Contact</Link></li>
             </ul>
           </div>
+
           <div>
-            <p className="label-eyebrow">Connect with us</p>
+            <p className="label-eyebrow">Our Companies</p>
+            <ul className="mt-4 space-y-2 text-[11px] text-muted-foreground">
+              <li><Link to="/companies/gulshan-e-chitral-homes" className="hover:text-brand-bright transition-colors">Gulshan-e-Chitral Homes (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/gc-homes" className="hover:text-brand-bright transition-colors">GC Homes (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/chitral-gemstone" className="hover:text-brand-bright transition-colors">Chitral Gemstone (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/gc-royal-emporium" className="hover:text-brand-bright transition-colors">GC Royal Emporium Chitral (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/gita-travel" className="hover:text-brand-bright transition-colors">Gulshan International Travel Agency (GITA)</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <p className="label-eyebrow">Connect With Us</p>
             <div className="mt-4 flex gap-3">
               {[Facebook, Linkedin, Instagram, Mail].map((Icon, i) => (
                 <a
                   key={i}
-                  href={i === 3 ? "mailto:imranchitrali05@gmail.com" : "#"}
+                  href="#message"
                   aria-label="Social link"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border transition-all hover:-translate-y-0.5 hover:border-primary hover:text-primary"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border transition-colors hover:bg-brand/25"
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon className="h-4 w-4" strokeWidth={1.4} />
                 </a>
               ))}
             </div>
           </div>
         </div>
-        <div className="border-t border-border/60 py-6 text-center text-[11px] text-muted-foreground">
-          © 2026 ETEMAAD100 Group. All Rights Reserved.
+        <div className="border-t border-border py-5 text-center text-[10px] text-muted-foreground">
+          © 2025 ETEMAAD100 Group. All Rights Reserved.
         </div>
       </footer>
     </div>

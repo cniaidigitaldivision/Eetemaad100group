@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 
 import logo from "@/assets/logo.png";
-import ctaImg from "@/assets/cta.jpg";
 import { CompanyData, companiesData } from "@/data/companies";
 
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -21,7 +20,6 @@ const NAV = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "Group Companies", href: "/#group-companies" },
-  { name: "Our Legacy", href: "/#our-legacy" },
   { name: "Contact", href: "/#contact" }
 ];
 
@@ -336,50 +334,11 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
         </div>
       </section>
 
-      {/* 5. CTA */}
-      <section id="contact" className="relative isolate overflow-hidden bg-ink min-h-[600px] lg:min-h-[750px] flex items-center">
-        <div className="mx-auto grid w-full max-w-[1400px] items-center gap-12 sm:gap-16 lg:gap-24 px-5 py-20 md:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,1fr)]">
-          <h2 className="text-5xl font-light uppercase leading-[1.15] tracking-tight sm:text-6xl lg:text-7xl">
-            Let&apos;s Build the
-            <br />
-            <span className="text-brand-bright">Future</span>
-            <br />
-            Together
-          </h2>
-          <div>
-            <p className="text-base sm:text-lg leading-relaxed text-muted-foreground">
-              We believe in partnerships that create impact. Let&apos;s start a conversation.
-            </p>
-            <Link
-              to="/#contact"
-              className="mt-6 sm:mt-8 inline-flex items-center gap-6 rounded-sm border border-brand-bright/70 px-9 py-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.22em] transition-colors hover:bg-brand/25"
-            >
-              Get in Touch <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
-            </Link>
-          </div>
-          <div className="relative flex h-[320px] sm:h-[420px] lg:h-[480px] items-end justify-center w-full max-w-full">
-            <div className="mountain-arc-glow absolute left-1/2 top-4 sm:top-6 lg:top-8 h-[280px] w-[320px] sm:h-[380px] sm:w-[420px] lg:h-[440px] lg:w-[480px] -translate-x-1/2 rounded-t-full max-w-[90%]" />
-            <img
-              src={ctaImg}
-              alt="Dark mountain peak"
-              width={1024}
-              height={1024}
-              loading="lazy"
-              className="relative h-[280px] w-[320px] sm:h-[380px] sm:w-[420px] lg:h-[440px] lg:w-[480px] max-w-[90%] object-cover object-bottom mix-blend-lighten"
-            />
-            <img
-              src={logo}
-              alt=""
-              aria-hidden="true"
-              className="absolute right-4 top-4 h-16 w-16 sm:h-20 sm:w-20 object-contain"
-            />
-          </div>
-        </div>
-      </section>
+
 
       {/* Footer */}
       <footer className="bg-ink border-t border-border/50">
-        <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-14 md:px-10 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-14 md:px-10 lg:grid-cols-4">
           <div>
             <div className="flex items-center gap-3">
               <img src={logo} alt="ETEMAAD100 Group logo" className="h-11 w-11 object-contain" />
@@ -393,14 +352,27 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
               Built on Trust. Driven by Purpose.
             </p>
           </div>
+
+          <div>
+            <p className="label-eyebrow">Quick Links</p>
+            <ul className="mt-4 space-y-2 text-[11px] text-muted-foreground">
+              <li><Link to="/" className="hover:text-brand-bright transition-colors">Home</Link></li>
+              <li><Link to="/about" className="hover:text-brand-bright transition-colors">About Us</Link></li>
+              <li><Link to="/contact" className="hover:text-brand-bright transition-colors">Contact</Link></li>
+            </ul>
+          </div>
+
           <div>
             <p className="label-eyebrow">Our Companies</p>
             <ul className="mt-4 space-y-2 text-[11px] text-muted-foreground">
-              {companiesData.map((c) => (
-                <li key={c.n}>{c.name}</li>
-              ))}
+              <li><Link to="/companies/gulshan-e-chitral-homes" className="hover:text-brand-bright transition-colors">Gulshan-e-Chitral Homes (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/gc-homes" className="hover:text-brand-bright transition-colors">GC Homes (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/chitral-gemstone" className="hover:text-brand-bright transition-colors">Chitral Gemstone (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/gc-royal-emporium" className="hover:text-brand-bright transition-colors">GC Royal Emporium Chitral (Pvt.) Ltd.</Link></li>
+              <li><Link to="/companies/gita-travel" className="hover:text-brand-bright transition-colors">Gulshan International Travel Agency (GITA)</Link></li>
             </ul>
           </div>
+
           <div>
             <p className="label-eyebrow">Connect With Us</p>
             <div className="mt-4 flex gap-3">
