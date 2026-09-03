@@ -121,31 +121,39 @@ export function HeroPortal({ logo, visionRef }: HeroPortalProps) {
 
           <div
             ref={circleRef}
-            className="relative flex h-[410px] w-[410px] max-w-[90vw] items-center justify-center rounded-full border border-brand-bright/60 portal-breathe sm:h-[480px] sm:w-[480px]"
+            className="relative flex w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 aspect-square object-cover items-center justify-center rounded-full border border-brand-bright/60 portal-breathe"
             style={{ willChange: "transform, opacity" }}
           >
-            <div ref={contentRef} className="flex flex-col items-center px-8" style={{ willChange: "transform, opacity" }}>
+            <div ref={contentRef} className="flex flex-col items-center px-4 sm:px-6 md:px-8 text-center" style={{ willChange: "transform, opacity" }}>
+              {/* Logo scaled down for mobile */}
               <img
                 src={logo}
                 alt="ETEMAAD100 Group logo"
-                className="h-[110px] w-[110px] sm:h-[130px] sm:w-[130px] object-contain"
+                className="h-[70px] w-[70px] sm:h-[100px] sm:w-[100px] md:h-[130px] md:w-[130px] object-contain"
               />
-              <h1 className="mt-5 text-center text-[15px] font-bold leading-[1.25] tracking-[0.06em] sm:text-[17px]">
+              
+              {/* Margins and Text scaled for headings */}
+              <h1 className="mt-2 sm:mt-4 md:mt-5 text-[12px] sm:text-[15px] md:text-[17px] font-bold leading-[1.25] tracking-[0.06em]">
                 ETEMAAD100
                 <br />
                 GROUP
               </h1>
-              <p className="mt-5 text-[15px] font-light leading-tight tracking-[0.32em] sm:text-[19px]">
+              
+              <p className="mt-2 sm:mt-3 md:mt-5 text-[11px] sm:text-[14px] md:text-[19px] font-light leading-tight tracking-[0.32em]">
                 SOMETHING <span className="text-brand-bright">BIG</span>
                 <br />
                 IS COMING
               </p>
-              <p className="mt-5 max-w-[300px] text-[11px] leading-relaxed text-muted-foreground sm:text-xs">
+              
+              {/* Paragraph width and size reduced for small screens */}
+              <p className="mt-2 sm:mt-4 md:mt-5 max-w-[200px] sm:max-w-[260px] md:max-w-[300px] text-[8px] sm:text-[10px] md:text-[11px] leading-relaxed text-muted-foreground">
                 Five ventures. One legacy. The new digital home of ETEMAAD100 Group is almost here.
               </p>
+              
+              {/* Button padding and margin tightened */}
               <a
                 href="#contact"
-                className="mt-6 rounded-sm border border-brand-bright/70 bg-brand/15 px-7 py-2.5 text-[10px] font-semibold uppercase tracking-[0.22em] transition-colors hover:bg-brand/35"
+                className="mt-3 sm:mt-5 md:mt-6 rounded-sm border border-brand-bright/70 bg-brand/15 px-4 py-1.5 sm:px-6 sm:py-2 md:px-7 md:py-2.5 text-[8px] sm:text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.22em] transition-colors hover:bg-brand/35"
               >
                 Stay Tuned
               </a>

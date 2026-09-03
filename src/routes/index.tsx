@@ -23,6 +23,7 @@ import { StatsSection } from "@/components/stats-section";
 import { Testimonials } from "@/components/Testimonials";
 import { CtaSection } from "@/components/cta-section";
 import logo from "@/assets/logo.png";
+import { Navbar } from "@/components/Navbar";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -75,69 +76,7 @@ function Index() {
 
   return (
     <div className="min-h-screen bg-background font-sans">
-      {/* Header */}
-      <header className="absolute inset-x-0 top-0 z-30">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-5 md:px-10">
-          <a href="#home" className="flex items-center gap-3">
-            <img src={logo} alt="ETEMAAD100 Group logo" className="h-14 w-14 md:h-16 md:w-16 object-contain" />
-            <span className="text-[11px] font-bold leading-[1.15] tracking-[0.08em] text-foreground">
-              ETEMAAD100
-              <br />
-              GROUP
-            </span>
-          </a>
-
-          <nav className="hidden items-center gap-8 lg:flex">
-            {NAV.map((item, i) => {
-              if (item.name === "Group Companies") {
-                return (
-                  <div key={item.name} className="relative group">
-                    <Link
-                      to={item.href}
-                      className="flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground py-2"
-                    >
-                      {item.name}
-                    </Link>
-                    {/* Dropdown Menu Wrapper with transparent bridge */}
-                    <div className="absolute left-1/2 top-full -translate-x-1/2 pt-2 opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300 z-50">
-                      <div className="flex w-72 flex-col rounded-xl border border-white/10 bg-black/80 p-2 backdrop-blur-md">
-                        {COMPANIES.map((c) => (
-                          <Link
-                            key={c.n}
-                            to={`/companies/${c.slug}` as any}
-                            className="block rounded-lg px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/50 transition-colors hover:bg-white/[0.06] hover:text-white"
-                          >
-                            {c.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                );
-              }
-              
-              return (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors hover:text-foreground ${i === 0
-                    ? "border-b border-brand-bright pb-1 text-foreground"
-                    : "text-muted-foreground"
-                    }`}
-                >
-                  {item.name}
-                </Link>
-              );
-            })}
-            <a
-              href="#contact"
-              className="rounded-full border border-brand-bright/70 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-brand/25"
-            >
-              Stay Tuned
-            </a>
-          </nav>
-        </div>
-      </header>
+      <Navbar />
 
       {/* 1. Your original Hero section */}
       <HeroPortal logo={logo} visionRef={visionRef} />

@@ -12,9 +12,11 @@ import {
 } from "lucide-react";
 
 import logo from "@/assets/logo.png";
+import { companyComponents } from './index';
+import { Navbar } from "@/components/Navbar";
 import { CompanyData, companiesData } from "@/data/companies";
 
-const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 const NAV = [
   { name: "Home", href: "/" },
@@ -223,64 +225,7 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
     <div className="min-h-screen bg-background font-sans" ref={containerRef}>
 
       {/* Header */}
-      <header className="absolute inset-x-0 top-0 z-30">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-5 md:px-10">
-          <Link to="/" className="flex items-center gap-3">
-            <img src={logo} alt="ETEMAAD100 Group logo" className="h-14 w-14 md:h-16 md:w-16 object-contain" />
-            <span className="text-[11px] font-bold leading-[1.15] tracking-[0.08em] text-foreground">
-              ETEMAAD100
-              <br />
-              GROUP
-            </span>
-          </Link>
-          <nav className="hidden items-center gap-8 lg:flex">
-            {NAV.map((item) => {
-              if (item.name === "Group Companies") {
-                return (
-                  <div key={item.name} className="relative group">
-                    <Link
-                      to={item.href}
-                      className="flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-foreground py-2"
-                    >
-                      {item.name}
-                    </Link>
-                    {/* Dropdown Menu Wrapper with transparent bridge */}
-                    <div className="absolute left-1/2 top-full -translate-x-1/2 pt-2 opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300 z-50">
-                      <div className="flex w-72 flex-col rounded-xl border border-white/10 bg-black/80 p-2 backdrop-blur-md">
-                        {companiesData.map((c) => (
-                          <Link
-                            key={c.n}
-                            to={`/companies/${c.slug}` as any}
-                            className="block rounded-lg px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/50 transition-colors hover:bg-white/[0.06] hover:text-white"
-                          >
-                            {c.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                );
-              }
-              
-              return (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`text-[11px] font-medium uppercase tracking-[0.18em] transition-colors hover:text-foreground text-muted-foreground`}
-                >
-                  {item.name}
-                </Link>
-              );
-            })}
-            <Link
-              to="/#contact"
-              className="rounded-full border border-brand-bright/70 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-brand/25"
-            >
-              Stay Tuned
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <Navbar />
 
       {/* 1. Page Header (Hero) */}
       <section className="relative h-[70vh] min-h-[500px] w-full flex items-center justify-center overflow-hidden">
