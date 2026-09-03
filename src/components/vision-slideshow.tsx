@@ -88,6 +88,7 @@ export function VisionSlideshow({ visionRef }: VisionSlideshowProps) {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
+      const isMobile = window.matchMedia("(max-width: 768px)").matches;
       const images = imageRefs.current.filter(Boolean) as HTMLImageElement[];
       const texts = textRefs.current.filter(Boolean) as HTMLDivElement[];
       const dots = dotRefs.current.filter(Boolean) as HTMLSpanElement[];
@@ -120,7 +121,7 @@ export function VisionSlideshow({ visionRef }: VisionSlideshowProps) {
             start: "top top",
             end: `+=${total * scrollPerSlide + revealPx}`,
             pin: true,
-            scrub: 1,
+            scrub: isMobile ? true : 1,
             anticipatePin: 1,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
@@ -145,22 +146,22 @@ export function VisionSlideshow({ visionRef }: VisionSlideshowProps) {
           const start = leadIn + i + holdRatio;
           tl.to(
             images[i]!,
-            { opacity: 0, scale: 1.02, filter: "blur(6px)", duration: transDuration, ease: "none" },
+            { opacity: 0, scale: 1.02, filter: isMobile ? "none" : "blur(6px)", duration: transDuration, ease: "none" },
             start,
           )
             .to(
               images[i + 1]!,
-              { opacity: 1, scale: 1, filter: "blur(0px)", duration: transDuration, ease: "none" },
+              { opacity: 1, scale: 1, filter: isMobile ? "none" : "blur(0px)", duration: transDuration, ease: "none" },
               start,
             )
             .to(
               texts[i]!,
-              { autoAlpha: 0, y: -14, filter: "blur(4px)", duration: transDuration * 0.8, ease: "none" },
+              { autoAlpha: 0, y: -14, filter: isMobile ? "none" : "blur(4px)", duration: transDuration * 0.8, ease: "none" },
               start,
             )
             .to(
               texts[i + 1]!,
-              { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: transDuration * 0.8, ease: "none" },
+              { autoAlpha: 1, y: 0, filter: isMobile ? "none" : "blur(0px)", duration: transDuration * 0.8, ease: "none" },
               start + transDuration * 0.2,
             );
         }
@@ -187,7 +188,7 @@ export function VisionSlideshow({ visionRef }: VisionSlideshowProps) {
   }, []);
 
   return (
-    <section ref={sectionRef} id="companies" className="relative isolate overflow-hidden bg-ink-soft h-[100svh] flex flex-col">
+    <section ref={sectionRef} id="companies" className="relative isolate overflow-hidden bg-ink-soft h-[100svh] flex flex-col touch-pan-y">
       {/* Everything lives inside one transform wrapper so the uncover parallax
           moves the whole composition as a single plane — no seam can open up
           between the image stack and the copy below it. */}

@@ -116,6 +116,7 @@ function ContactPage() {
     gsap.registerPlugin(ScrollTrigger);
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
     const ctx = gsap.context(() => {
       if (reduced) {
@@ -150,7 +151,7 @@ function ContactPage() {
           trigger: heroTextRef.current,
           start: "top top",
           end: "+=600",
-          scrub: 0.6,
+          scrub: isMobile ? true : 0.6,
         },
       });
 
@@ -179,7 +180,7 @@ function ContactPage() {
               trigger: card,
               start: "top bottom",
               end: "bottom top",
-              scrub: 1,
+              scrub: isMobile ? true : 1,
             },
           },
         );
@@ -201,7 +202,7 @@ function ContactPage() {
               trigger: formPanelRef.current,
               start: "top 90%",
               end: "top 35%",
-              scrub: 0.8,
+              scrub: isMobile ? true : 0.8,
             },
           },
         );
@@ -234,7 +235,7 @@ function ContactPage() {
               trigger: mapRef.current,
               start: "top 95%",
               end: "top 45%",
-              scrub: 0.8,
+              scrub: isMobile ? true : 0.8,
             },
           },
         );
@@ -245,7 +246,7 @@ function ContactPage() {
         gsap.to(floorRef.current, {
           backgroundPositionY: "600px",
           ease: "none",
-          scrollTrigger: { trigger: containerRef.current, start: "top top", end: "bottom bottom", scrub: 1 },
+          scrollTrigger: { trigger: containerRef.current, start: "top top", end: "bottom bottom", scrub: isMobile ? true : 1 },
         });
       }
     }, containerRef);
@@ -279,7 +280,7 @@ function ContactPage() {
   };
 
   return (
-    <div ref={containerRef} className="min-h-screen overflow-x-hidden bg-background">
+    <div ref={containerRef} className="min-h-screen overflow-x-hidden bg-background touch-pan-y" style={{ willChange: "transform, opacity" }}>
       <Navbar />
 
       {/* Hero */}

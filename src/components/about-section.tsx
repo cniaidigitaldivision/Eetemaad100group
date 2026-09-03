@@ -20,6 +20,7 @@ export function AboutSection() {
     if (typeof window === "undefined") return;
     gsap.registerPlugin(ScrollTrigger);
 
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
     const ctx = gsap.context(() => {
       // Scroll-linked entrance fade: this section is fully transparent while it's
       // below the viewport and reaches full opacity exactly as its top hits the
@@ -49,7 +50,7 @@ export function AboutSection() {
           start: "top top",
           end: "+=2400",
           pin: true, // Locks section while cards expand
-          scrub: 1,
+          scrub: isMobile ? true : 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
         },
@@ -59,7 +60,7 @@ export function AboutSection() {
       tl.fromTo(
         headerRef.current,
         { opacity: 0.7, y: 0 },
-        { opacity: 0.12, y: -60, filter: "blur(2px)", duration: 1.5, ease: "none" },
+        { opacity: 0.12, y: -60, filter: isMobile ? "none" : "blur(2px)", duration: 1.5, ease: "none" },
         0,
       )
         // 2. 3 Cards expand vertically UPWARDS from bottom baseline, growing to
@@ -78,7 +79,7 @@ export function AboutSection() {
     <section
       ref={containerRef}
       id="about"
-      className="relative w-full h-screen overflow-hidden bg-[#060B14] text-white box-border isolate"
+      className="relative w-full h-screen overflow-hidden bg-[#060B14] text-white box-border isolate touch-pan-y"
     >
       {/* Background ambient lighting */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(0,210,255,0.06),transparent_70%)] pointer-events-none" />
@@ -108,6 +109,7 @@ export function AboutSection() {
         <div
           ref={cardLeftRef}
           className="hidden xl:block relative w-[26%] h-[38vh] overflow-hidden border-r border-white/10 bg-[#0B132B] shadow-2xl transition-[height] duration-75"
+          style={{ willChange: "transform, opacity" }}
         >
           <img
             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200"
@@ -125,6 +127,7 @@ export function AboutSection() {
         <div
           ref={cardCenterRef}
           className="relative w-[92%] sm:w-[85%] md:w-[70%] max-w-2xl mx-auto xl:max-w-none xl:w-[46%] h-auto min-h-fit overflow-hidden border border-blue-500/30 bg-gradient-to-br from-[#1e293b] via-[#0f172a] to-[#020617] backdrop-blur-xl shadow-[0_0_25px_rgba(59,130,246,0.2)] rounded-3xl z-30 flex flex-col items-center justify-center p-6 sm:p-8 md:p-10 text-center transition-[height] duration-75"
+          style={{ willChange: "transform, opacity" }}
         >
           <div className="flex max-w-lg flex-1 flex-col items-center justify-center">
             <span className="block text-xl md:text-2xl font-serif font-bold tracking-wide text-white mb-6">
@@ -151,6 +154,7 @@ export function AboutSection() {
         <div
           ref={cardRightRef}
           className="hidden xl:block relative w-[26%] h-[38vh] overflow-hidden border-l border-white/10 bg-[#0B132B] shadow-2xl transition-[height] duration-75"
+          style={{ willChange: "transform, opacity" }}
         >
           <img
             src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200"

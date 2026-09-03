@@ -222,7 +222,7 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
   };
 
   return (
-    <div className="min-h-screen bg-background font-sans" ref={containerRef}>
+    <div className="min-h-screen bg-background font-sans touch-pan-y" ref={containerRef} style={{ willChange: "transform, opacity" }}>
 
       {/* Header */}
       <Navbar />

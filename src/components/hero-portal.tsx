@@ -44,13 +44,13 @@ export function HeroPortal({ logo, visionRef }: HeroPortalProps) {
           trigger: sectionRef.current,
           start: "top top",
           end: "+=75%",
-          scrub: 1,
+          scrub: isMobile ? true : 1,
           pin: true,
           anticipatePin: 1,
         },
       });
 
-      tl.to(contentRef.current, { opacity: 0, scale: 0.8, filter: "blur(10px)", duration: 0.4, ease: "power1.out" }, 0)
+      tl.to(contentRef.current, { opacity: 0, scale: 0.8, filter: isMobile ? "none" : "blur(10px)", duration: 0.4, ease: "power1.out" }, 0)
         .to(circleRef.current, { scale: circleScale, opacity: 0, duration: 1, ease: "power2.inOut" }, 0.15)
         .to(bgRef.current, { scale: 1.1, y: bgTravel, duration: 1, ease: "power1.out" }, 0)
         .fromTo(

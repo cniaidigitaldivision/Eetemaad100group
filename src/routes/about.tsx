@@ -371,7 +371,7 @@ function AboutPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background font-sans" ref={containerRef}>
+    <div className="min-h-screen bg-background font-sans touch-pan-y" ref={containerRef} style={{ willChange: "transform, opacity" }}>
 
       {/* 0. Header (Reused from index.tsx) */}
       <Navbar />
