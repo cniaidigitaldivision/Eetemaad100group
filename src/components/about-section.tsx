@@ -107,7 +107,7 @@ export function AboutSection() {
         {/* Left Card: Heritage (Image) */}
         <div
           ref={cardLeftRef}
-          className="relative w-[26%] h-[38vh] overflow-hidden border-r border-white/10 bg-[#0B132B] shadow-2xl transition-[height] duration-75"
+          className="hidden xl:block relative w-[26%] h-[38vh] overflow-hidden border-r border-white/10 bg-[#0B132B] shadow-2xl transition-[height] duration-75"
         >
           <img
             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200"
@@ -124,33 +124,33 @@ export function AboutSection() {
         {/* Center Card: Text & Editorial — big bold centered heading, dominant size */}
         <div
           ref={cardCenterRef}
-          className="relative w-[46%] h-[58vh] overflow-hidden border border-cyan-400/40 bg-[#0B132B]/95 backdrop-blur-xl shadow-[0_0_50px_rgba(0,0,0,0.9),0_0_30px_rgba(0,210,255,0.15)] z-30 flex flex-col items-center justify-center p-8 text-center transition-[height] duration-75 md:p-14"
+          className="relative w-[92%] sm:w-[85%] md:w-[70%] max-w-2xl mx-auto xl:max-w-none xl:w-[46%] h-auto min-h-fit overflow-hidden border border-blue-500/30 bg-gradient-to-br from-[#1e293b] via-[#0f172a] to-[#020617] backdrop-blur-xl shadow-[0_0_25px_rgba(59,130,246,0.2)] rounded-3xl z-30 flex flex-col items-center justify-center p-6 sm:p-8 md:p-10 text-center transition-[height] duration-75"
         >
           <div className="flex max-w-lg flex-1 flex-col items-center justify-center">
-            <span className="block text-xs md:text-sm font-bold tracking-[0.3em] uppercase text-cyan-400 mb-4">
+            <span className="block text-xl md:text-2xl font-serif font-bold tracking-wide text-white mb-6">
               Five Ventures. One Vision.
             </span>
-            <p className="text-slate-200 text-sm md:text-lg leading-relaxed m-0 mb-4 font-medium">
+            <p className="text-gray-300 text-sm md:text-lg leading-relaxed m-0 mb-4 font-medium">
               ETEMAAD100 GROUP is a diversified, forward-looking business group operating across Real Estate & Housing, Property Marketing & Investment, Mining & Minerals, Gemstones & Handicrafts, Commercial & Residential Development, and Travel & Tourism.
             </p>
-            <p className="text-slate-300 text-sm md:text-base leading-relaxed m-0">
+            <p className="text-gray-300 text-sm md:text-base leading-relaxed m-0">
               As the Mother Company, we bring together five specialized businesses — Gulshan-e-Chitral Homes, GC Homes, Chitral Gemstone, GC Royal Emporium Chitral, and Gulshan International Travel Agency (GITA) — united under one vision: Building Trust. Creating Opportunities. Developing the Future.
             </p>
           </div>
 
           <Link
             to="/about-us"
-            className="mt-6 flex items-center gap-3 border-t border-white/10 pt-6 text-sm font-bold uppercase tracking-[0.2em] text-slate-200 transition-colors hover:text-cyan-300 group"
+            className="mt-8 flex items-center gap-3 border-t border-white/10 pt-6 text-sm font-bold uppercase tracking-[0.2em] text-white transition-colors hover:text-blue-400 group"
           >
             Know More About Us
-            <ArrowRight className="h-4 w-4 text-cyan-400 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="h-4 w-4 text-blue-400 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
 
         {/* Right Card: Expansion (Image) */}
         <div
           ref={cardRightRef}
-          className="relative w-[26%] h-[38vh] overflow-hidden border-l border-white/10 bg-[#0B132B] shadow-2xl transition-[height] duration-75"
+          className="hidden xl:block relative w-[26%] h-[38vh] overflow-hidden border-l border-white/10 bg-[#0B132B] shadow-2xl transition-[height] duration-75"
         >
           <img
             src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200"

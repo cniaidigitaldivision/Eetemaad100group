@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, Home, Building2, Gem, Sparkles, Plane } from "lucide-react";
+import { Menu, X, Home, Building2, Gem, Sparkles, Plane, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/assets/logo.png";
 
 const NAV = [
@@ -26,6 +27,7 @@ const COMPANIES = [
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isGroupCompaniesOpen, setIsGroupCompaniesOpen] = useState(false);
 
   return (
     <header className="absolute inset-x-0 top-0 z-50">
@@ -41,7 +43,7 @@ export function Navbar() {
 
         {/* Mobile Hamburger Menu */}
         <button 
-          className="block md:hidden text-foreground hover:text-brand-bright transition-colors"
+          className="block md:hidden text-white hover:text-white/80 transition-colors focus:outline-none"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle navigation menu"
         >
@@ -98,44 +100,82 @@ export function Navbar() {
       </div>
 
       {/* Mobile Menu Dropdown */}
-      {isMobileMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-white/10 p-5 md:hidden shadow-2xl flex flex-col gap-6">
-          <nav className="flex flex-col gap-4">
-            {NAV.map((item) => (
-              <div key={item.name} className="flex flex-col">
-                <Link 
-                  to={item.href as any} 
-                  className="text-sm font-semibold uppercase tracking-wider text-white/90 hover:text-brand-bright py-2 border-b border-white/5"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-                {item.name === "Group Companies" && (
-                  <div className="pl-4 mt-2 flex flex-col gap-2">
-                    {COMPANIES.map((c) => (
-                      <Link
-                        key={c.n}
-                        to={`/companies/${c.slug}` as any}
-                        className="text-xs uppercase tracking-wider text-white/50 hover:text-white py-1.5"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        {c.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </nav>
-          <Link
-            to="/contact"
-            className="text-center rounded-lg bg-brand-bright/10 border border-brand-bright/50 px-6 py-3 text-xs font-bold uppercase tracking-widest text-brand-bright transition-colors hover:bg-brand-bright/20 mt-4"
-            onClick={() => setIsMobileMenuOpen(false)}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="absolute top-full left-0 w-full bg-[#0B1120]/95 backdrop-blur-lg border-b border-white/10 p-6 md:hidden shadow-2xl flex flex-col gap-2 origin-top"
           >
-            Stay Tuned
-          </Link>
-        </div>
-      )}
+            <nav className="flex flex-col">
+              {NAV.map((item) => {
+                if (item.name === "Group Companies") {
+                  return (
+                    <div key={item.name} className="flex flex-col border-b border-white/5">
+                      <button
+                        onClick={() => setIsGroupCompaniesOpen(!isGroupCompaniesOpen)}
+                        className="flex items-center justify-between py-5 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:text-white/80 w-full text-left"
+                      >
+                        {item.name}
+                        <motion.div
+                          animate={{ rotate: isGroupCompaniesOpen ? 180 : 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <ChevronDown className="w-5 h-5 text-white/50" />
+                        </motion.div>
+                      </button>
+                      <AnimatePresence>
+                        {isGroupCompaniesOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="flex flex-col gap-1 pb-5 pl-4 ml-2 border-l border-white/20 mt-1">
+                              {COMPANIES.map((c) => (
+                                <Link
+                                  key={c.n}
+                                  to={`/companies/${c.slug}` as any}
+                                  className="py-2.5 text-[11px] font-medium uppercase tracking-[0.15em] text-white/60 transition-colors hover:text-white"
+                                  onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                  {c.name}
+                                </Link>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                }
+
+                return (
+                  <Link 
+                    key={item.name}
+                    to={item.href as any} 
+                    className="py-5 text-sm font-bold uppercase tracking-widest text-white transition-colors hover:text-white/80 border-b border-white/5"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </nav>
+            <Link
+              to="/contact"
+              className="mt-6 text-center rounded-lg bg-brand-bright/10 border border-brand-bright/30 px-6 py-4 text-xs font-bold uppercase tracking-widest text-brand-bright transition-colors hover:bg-brand-bright/20"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Stay Tuned
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
