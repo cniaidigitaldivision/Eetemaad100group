@@ -20,7 +20,7 @@ const COMPANIES = [
     n: "05",
     icon: Plane,
     name: "GITA (Gulshan International Travel Agency Pvt Ltd)",
-    slug: "gita-travel",
+    slug: "gita",
     tag: "International Travel",
   },
 ];
@@ -64,12 +64,12 @@ export function Navbar() {
                   </Link>
                   {/* Dropdown Menu Wrapper with transparent bridge */}
                   <div className="absolute left-1/2 top-full -translate-x-1/2 pt-2 opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300 z-50">
-                    <div className="flex w-72 flex-col rounded-xl border border-white/10 bg-black/80 p-2 backdrop-blur-md">
+                    <div className="flex w-72 flex-col rounded-xl border border-white/10 bg-gradient-to-b from-[#0a1128]/95 to-[#060c14]/95 p-2 backdrop-blur-md shadow-2xl">
                       {COMPANIES.map((c) => (
                         <Link
                           key={c.n}
                           to={`/companies/${c.slug}` as any}
-                          className="block rounded-lg px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/50 transition-colors hover:bg-white/[0.06] hover:text-white"
+                          className="block rounded-lg px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/80 transition-colors hover:bg-white/5 hover:text-white"
                         >
                           {c.name}
                         </Link>

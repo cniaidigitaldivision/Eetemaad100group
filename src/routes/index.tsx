@@ -64,7 +64,7 @@ const COMPANIES = [
     n: "05",
     icon: Plane,
     name: "GITA (Gulshan International Travel Agency Pvt Ltd)",
-    slug: "gita-travel",
+    slug: "gita",
     tag: "International Travel",
   },
 ];
@@ -151,7 +151,7 @@ function Index() {
               <li><Link to="/companies/gc-homes" className="hover:text-brand-bright transition-colors">GC Homes (Pvt.) Ltd.</Link></li>
               <li><Link to="/companies/chitral-gemstone" className="hover:text-brand-bright transition-colors">Chitral Gemstone (Pvt.) Ltd.</Link></li>
               <li><Link to="/companies/gc-royal-emporium" className="hover:text-brand-bright transition-colors">GC Royal Emporium Chitral (Pvt.) Ltd.</Link></li>
-              <li><Link to="/companies/gita-travel" className="hover:text-brand-bright transition-colors">Gulshan International Travel Agency (GITA)</Link></li>
+              <li><Link to="/companies/gita" className="hover:text-brand-bright transition-colors">Gulshan International Travel Agency (GITA)</Link></li>
             </ul>
           </div>
 

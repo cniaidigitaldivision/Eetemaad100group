@@ -236,20 +236,22 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
         />
         <div className="absolute inset-0 bg-ink/50 mix-blend-multiply" />
 
-        <div className="relative z-10 w-full max-w-[1000px] mx-auto px-5 pt-20" ref={heroTextRef}>
+        <div className="relative z-10 w-full max-w-[1000px] mx-auto px-5 pt-20 flex flex-col items-center justify-center text-center" ref={heroTextRef}>
           {/* Company Logo */}
-          <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border border-brand-bright/50 bg-ink-soft/80 backdrop-blur flex items-center justify-center mb-8 mx-auto md:mx-0 shadow-[0_0_30px_rgba(0,210,255,0.15)] overflow-hidden">
+          <div className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden flex items-center justify-center border-2 border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.1)] mx-auto mb-6 ${
+            company.slug === 'chitral-gemstone' || company.slug === 'gc-homes' ? 'bg-black' : 'bg-white'
+          }`}>
             <img
               src={company.logo || logo}
               alt={`${company.name} logo`}
-              className="w-full h-full object-contain p-2"
+              className="w-full h-full object-contain p-3"
             />
           </div>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif text-white uppercase tracking-wider mb-4 text-center md:text-left">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif text-white uppercase tracking-wider mb-4">
             {company.name}
           </h1>
-          <p className="text-sm md:text-base font-semibold text-cyan-400 uppercase tracking-[0.2em] text-center md:text-left">
+          <p className="text-sm md:text-base font-semibold text-cyan-400 uppercase tracking-[0.2em]">
             {company.field}
           </p>
         </div>
@@ -362,7 +364,7 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
               <li><Link to="/companies/gc-homes" className="hover:text-brand-bright transition-colors">GC Homes (Pvt.) Ltd.</Link></li>
               <li><Link to="/companies/chitral-gemstone" className="hover:text-brand-bright transition-colors">Chitral Gemstone (Pvt.) Ltd.</Link></li>
               <li><Link to="/companies/gc-royal-emporium" className="hover:text-brand-bright transition-colors">GC Royal Emporium Chitral (Pvt.) Ltd.</Link></li>
-              <li><Link to="/companies/gita-travel" className="hover:text-brand-bright transition-colors">Gulshan International Travel Agency (GITA)</Link></li>
+              <li><Link to="/companies/gita" className="hover:text-brand-bright transition-colors">Gulshan International Travel Agency (GITA)</Link></li>
             </ul>
           </div>
 

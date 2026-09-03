@@ -405,7 +405,7 @@ function AboutPage() {
         </div>
 
         <div className="relative z-10 max-w-[1400px] mx-auto">
-          <div className="max-w-4xl" ref={introTextRef}>
+          <div className="max-w-4xl mx-auto text-center" ref={introTextRef}>
             <p className="font-sans text-blue-400 font-semibold uppercase tracking-[0.2em] mb-6">About The Company</p>
             <p className="text-xl md:text-2xl font-light text-slate-200 leading-relaxed mb-8">
               As the Mother Company, ETEMAAD100 GROUP brings together a portfolio of specialized businesses working under a shared vision of quality, trust, innovation and sustainable growth.
@@ -598,7 +598,7 @@ function AboutPage() {
                 <div
                   key={val.title}
                   ref={(el) => { valueCardsRef.current[i] = el; }}
-                  className="bg-slate-100 p-6 rounded-2xl text-center shadow-[0_15px_40px_rgba(6,12,20,0.7)] border border-slate-300/40 hover:-translate-y-2 transition-transform duration-500 group flex flex-col items-center"
+                  className="bg-white/5 backdrop-blur-md border border-white/10 p-6 rounded-2xl text-center shadow-[0_15px_40px_rgba(6,12,20,0.7)] hover:-translate-y-2 transition-transform duration-500 group flex flex-col items-center"
                 >
                   <div className="relative w-14 h-14 bg-[#060C14] rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.3)] mb-6 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.5)]">
                     <Icon
@@ -607,10 +607,10 @@ function AboutPage() {
                       strokeWidth={1.5}
                     />
                   </div>
-                  <h3 className="text-[12px] font-bold uppercase tracking-wider text-[#060C14] mb-3 leading-snug">
+                  <h3 className="text-[12px] font-bold uppercase tracking-wider text-white mb-3 leading-snug">
                     {val.title}
                   </h3>
-                  <p className="text-[11px] leading-relaxed text-slate-600 font-medium">
+                  <p className="text-[11px] leading-relaxed text-slate-300 font-medium">
                     {val.body}
                   </p>
                 </div>
@@ -722,11 +722,10 @@ function AboutPage() {
                     ref={(el) => { structureNodesRef.current[i] = el; }}
                     className="bg-ink border border-border p-5 rounded-lg text-center w-full max-w-[300px] h-full flex flex-col justify-center transition-colors hover:border-blue-400/40"
                   >
-                    <div className="w-8 h-8 rounded-full bg-ink-soft border border-border flex items-center justify-center mx-auto mb-3">
-                      <span className="text-[10px] font-bold text-blue-400">{c.n}</span>
-                    </div>
+                    <img src={SUBSIDIARIES[i].img} alt={c.name} className="h-12 w-auto object-contain mx-auto mb-3" />
                     <h4 className="text-[10px] font-semibold text-slate-200 uppercase tracking-wider mb-2">{c.name}</h4>
                     <p className="text-[9px] text-muted-foreground mt-auto">{c.field}</p>
+                    <Link to={"/companies/" + c.slug} className="mt-4 text-[10px] font-semibold text-blue-400 hover:text-white transition-colors uppercase tracking-widest block text-center">See details &rarr;</Link>
                   </div>
                 </div>
               ))}
@@ -735,44 +734,7 @@ function AboutPage() {
         </div>
       </section>
 
-      {/* 8. Company Profiles List */}
-      <section className="bg-ink py-24 px-5 md:px-10" ref={profilesSectionRef}>
-        <div className="max-w-[1200px] mx-auto">
-          <div ref={profilesTextRef} className="mb-16">
-            <p className="label-eyebrow text-blue-400">Our Companies</p>
-            <h2 className="mt-4 text-3xl font-light leading-[1.2] text-white">
-              Specialized Business Sectors
-            </h2>
-          </div>
 
-          <div className="space-y-6">
-            {COMPANY_PROFILES.map((c, i) => (
-              <div
-                key={c.slug}
-                ref={(el) => { profileRowsRef.current[i] = el; }}
-                className="bg-ink-soft border border-border p-8 rounded-xl flex flex-col md:flex-row gap-8 items-start md:items-center hover:bg-ink-soft/80 transition-colors"
-              >
-                <div className="flex-shrink-0 w-16 h-16 rounded-full border border-blue-400/30 flex items-center justify-center text-2xl font-light text-blue-400">
-                  {c.n}
-                </div>
-                <div className="flex-grow">
-                  <h3 className="text-xl font-serif text-white uppercase tracking-wider mb-2">{c.name}</h3>
-                  <p className="text-xs font-semibold text-blue-400 uppercase tracking-widest mb-4">{c.field}</p>
-                  <p className="text-sm text-muted-foreground leading-relaxed max-w-3xl">{c.desc}</p>
-                </div>
-                <div className="flex-shrink-0 mt-4 md:mt-0">
-                  <Link
-                    to={`/companies/${c.slug}`}
-                    className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white hover:text-blue-400 transition-colors"
-                  >
-                    See Details <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* 9. Integrated Business Approach */}
       <section className="bg-ink-soft py-32 px-5 md:px-10 border-t border-border overflow-hidden" ref={integratedSectionRef}>
@@ -845,7 +807,7 @@ function AboutPage() {
               <li><Link to="/companies/gc-homes" className="hover:text-blue-400 transition-colors">GC Homes (Pvt.) Ltd.</Link></li>
               <li><Link to="/companies/chitral-gemstone" className="hover:text-blue-400 transition-colors">Chitral Gemstone (Pvt.) Ltd.</Link></li>
               <li><Link to="/companies/gc-royal-emporium" className="hover:text-blue-400 transition-colors">GC Royal Emporium Chitral (Pvt.) Ltd.</Link></li>
-              <li><Link to="/companies/gita-travel" className="hover:text-blue-400 transition-colors">Gulshan International Travel Agency (GITA)</Link></li>
+              <li><Link to="/companies/gita" className="hover:text-blue-400 transition-colors">Gulshan International Travel Agency (GITA)</Link></li>
             </ul>
           </div>
 
