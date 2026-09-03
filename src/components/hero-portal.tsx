@@ -121,7 +121,7 @@ export function HeroPortal({ logo, visionRef }: HeroPortalProps) {
 
           <div
             ref={circleRef}
-            className="relative flex w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 aspect-square object-cover items-center justify-center rounded-full border border-brand-bright/60 portal-breathe"
+            className="relative flex w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] md:w-[500px] md:h-[500px] aspect-square object-cover items-center justify-center rounded-full border border-brand-bright/60 portal-breathe"
             style={{ willChange: "transform, opacity" }}
           >
             <div ref={contentRef} className="flex flex-col items-center px-4 sm:px-6 md:px-8 text-center" style={{ willChange: "transform, opacity" }}>
