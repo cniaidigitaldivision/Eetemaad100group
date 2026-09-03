@@ -62,7 +62,7 @@ const SLIDES: VisionSlide[] = [
     kind: "company",
     n: "05",
     slug: "gita",
-    name: "GITA",
+    name: "Gulshan International Travel Agency",
     description: "International travel & tourism services for the group's clients.",
     image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1400",
     alt: "Air travel — Gulshan International Travel Agency",
@@ -232,7 +232,7 @@ export function VisionSlideshow({ visionRef }: VisionSlideshowProps) {
         {/* Content Wrapper */}
         <div
           ref={visionRef}
-          className="relative z-10 w-full h-1/2 bg-ink-soft"
+          className="relative z-10 w-full h-1/2 bg-gradient-to-b from-[#0A1128] via-[#060C14] to-[#010308] border-t border-white/5"
         >
           {SLIDES.map((slide, i) => (
             <div
@@ -246,21 +246,15 @@ export function VisionSlideshow({ visionRef }: VisionSlideshowProps) {
               {slide.kind === "intro" ? (
                 <div className="flex flex-col items-center text-center w-full h-full justify-center">
                   <p className="label-eyebrow">Welcome to</p>
-                  <h2 className="mt-4 text-4xl font-light leading-[1.15] tracking-tight sm:text-5xl">
+                  <h2 className="mt-4 text-4xl sm:text-5xl font-serif font-light tracking-wide leading-[1.15]">
                     Five Ventures.
                     <br />
-                    One <span className="text-brand-bright">Vision.</span>
+                    <span className="italic bg-clip-text text-transparent bg-gradient-to-r from-blue-100 to-cyan-400 drop-shadow-sm">One Vision.</span>
                   </h2>
-                  <p className="mt-6 max-w-md text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-6 max-w-md text-sm font-sans text-white/70 tracking-wide leading-relaxed">
                     ETEMAAD100 Group is a Chitral-rooted holding company committed to building trusted
                     businesses that create lasting value for generations.
                   </p>
-                  <a
-                    href="#companies"
-                    className="mt-8 inline-block rounded-sm border border-border px-7 py-3 text-[10px] font-semibold uppercase tracking-[0.22em] transition-colors hover:bg-brand/20"
-                  >
-                    Explore the Group
-                  </a>
                 </div>
               ) : (
                 <div className="flex flex-col items-center text-center w-full h-full justify-center">
@@ -277,12 +271,15 @@ export function VisionSlideshow({ visionRef }: VisionSlideshowProps) {
 
                   {/* Centered Content: Name -> Link */}
                   <div className="flex flex-col items-center mt-12 sm:mt-16 text-center">
-                    <h2 className="text-4xl font-serif font-normal leading-tight tracking-[0.15em] sm:text-5xl lg:text-6xl uppercase text-slate-100 max-w-[90vw]">
+                    <h2 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-light tracking-wide uppercase text-slate-100 max-w-[90vw]">
                       {slide.name}
                     </h2>
+                    <p className="mt-4 sm:mt-6 max-w-md text-sm font-sans text-white/70 tracking-wide leading-relaxed px-4">
+                      {slide.description}
+                    </p>
                     <a
                       href={`/companies/${slide.slug}`}
-                      className="mt-8 inline-block rounded-sm border border-border px-7 py-3 text-[10px] font-semibold uppercase tracking-[0.22em] transition-colors hover:bg-brand/20"
+                      className="mt-6 sm:mt-8 inline-block rounded-sm border border-border px-7 py-3 text-[10px] font-semibold uppercase tracking-[0.22em] transition-colors hover:bg-brand/20"
                     >
                       See Details
                     </a>

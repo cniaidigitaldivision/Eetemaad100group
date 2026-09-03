@@ -50,7 +50,8 @@ export const companiesData: CompanyData[] = [
     image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1400",
     logo: logoGcHomes,
     aboutParagraphs: [
-      "GC Homes (Pvt.) Ltd. operates in the real estate sector, focusing on property marketing, acquisition, investment, and sales. The company works with different housing and real estate projects to provide customers and investors with diverse property opportunities."
+      "GC Homes (Pvt.) Ltd. is a premier real estate entity dedicated to reshaping the landscape of property marketing, acquisition, and investment. Operating with a commitment to excellence, we bridge the gap between visionary real estate projects and discerning investors.",
+      "Our approach goes beyond traditional sales; we strategically analyze market trends to identify high-potential housing and commercial developments. By partnering with top-tier developers and offering a diverse portfolio of secure property opportunities, GC Homes ensures that every client makes informed, profitable, and long-lasting real estate decisions. Whether you are looking for a secure residential plot or a high-yield investment, we provide the expertise to guide you every step of the way."
     ],
     keyDetailsType: 'cards',
     keyDetails: {

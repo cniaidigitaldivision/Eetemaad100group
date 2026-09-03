@@ -429,11 +429,12 @@ function AboutPage() {
                 >
                   {/* Top section: Glassmorphism with Logo */}
                   <div className="flex-1 p-8 flex flex-col items-center text-center">
-                    <div className="relative mb-6">
-                      <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-xl group-hover:bg-blue-500/30 transition-colors" />
-                      <div className="relative w-20 h-20 bg-[#0B1120] rounded-full flex items-center justify-center border border-white/10 p-3 shadow-inner overflow-hidden">
-                        <img src={sub.img} alt={sub.name} className="w-full h-full object-contain" />
-                      </div>
+                    <div className={`relative w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden flex items-center justify-center mx-auto mb-4 border-2 border-white/10 shadow-lg ${
+                      sub.name === 'Chitral Gemstone' || sub.name === 'GC Homes' ? 'bg-black' :
+                      sub.name === 'GC Royal Emporium' ? 'bg-white' :
+                      'bg-[#060C14]'
+                    }`}>
+                      <img src={sub.img} alt={sub.name} className="w-full h-full object-contain p-2" />
                     </div>
                     <h4 className="text-[13px] font-bold uppercase tracking-wider text-white leading-snug">
                       {sub.name}
@@ -475,18 +476,15 @@ function AboutPage() {
               CHAIRMAN / CEO <br className="hidden md:block" /> MESSAGE
             </h2>
             
-            <div className="space-y-8 text-slate-100 text-lg md:text-xl leading-[2.2] font-light">
-              <p className="text-2xl md:text-3xl italic font-serif text-white leading-relaxed">
-                "It gives me immense pleasure to welcome you to ETEMAAD100 GROUP. Our journey is built on a simple but powerful belief: business is not only about generating growth; it is about creating opportunities, building trust and contributing to the development of society."
+            <div className="space-y-4 text-white/80 leading-relaxed text-lg md:text-xl font-light">
+              <p>
+                Welcome to ETEMAAD100 GROUP. Our journey is built on a simple but powerful belief: business is not just about growth—it is about creating meaningful opportunities, building unwavering trust, and driving societal progress.
               </p>
               <p>
-                ETEMAAD100 GROUP was established with the vision of developing a diversified business platform capable of creating meaningful opportunities across different sectors of Pakistan's economy. Today, our Group operates through businesses covering real estate, housing, property investment, mining and minerals, gemstones, commercial development, retail, travel and tourism.
+                From transforming real estate and commercial landscapes to unlocking Chitral’s rich mineral potential on a global scale, our diversified portfolio is designed to create lasting value across Pakistan’s economy.
               </p>
               <p>
-                Through Chitral Gemstone (Pvt.) Ltd., we are committed to unlocking the economic potential of Chitral's natural mineral resources. Our objective is not merely to extract minerals, but to develop a complete value chain—from mining and processing to cutting, polishing, manufacturing and introducing Chitral's gemstones and stone products to national and international markets.
-              </p>
-              <p>
-                As we move forward, our priorities remain clear: quality, transparency, innovation, customer satisfaction and sustainable growth. We recognize that the trust of our customers, investors, business partners and communities is our greatest asset.
+                As we look to the future, our priorities remain uncompromising: quality, transparency, and sustainable innovation. The trust of our customers, investors, and communities is, and always will be, our greatest asset.
               </p>
             </div>
 

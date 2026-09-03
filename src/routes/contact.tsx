@@ -20,6 +20,7 @@ import {
 
 import logo from "@/assets/logo.png";
 import { Navbar } from "@/components/Navbar";
+import { sendEnquiryFn } from "@/lib/actions";
 
 const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
@@ -109,7 +110,8 @@ function ContactPage() {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const floorRef = useRef<HTMLDivElement | null>(null);
 
-  const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success">("idle");
+  const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", subject: FORM_SUBJECTS[0], message: "" });
 
   useIsomorphicLayoutEffect(() => {
     if (typeof window === "undefined") return;
@@ -273,10 +275,20 @@ function ContactPage() {
     gsap.to(formPanelRef.current, { rotateY: 0, rotateX: 0, duration: 0.8, ease: "power3.out" });
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setFormStatus("submitting");
-    setTimeout(() => setFormStatus("success"), 1000);
+    try {
+      const result = await sendEnquiryFn({ data: { ...formData, interest: formData.subject } });
+      if (result.success) {
+        setFormStatus("success");
+        setFormData({ name: "", email: "", phone: "", subject: FORM_SUBJECTS[0], message: "" });
+      } else {
+        setFormStatus("error");
+      }
+    } catch (error) {
+      setFormStatus("error");
+    }
   };
 
   return (
@@ -294,7 +306,7 @@ function ContactPage() {
           <p data-hero className="label-eyebrow">
             Get in touch
           </p>
-          <h1 className="mt-6 font-display text-5xl font-light uppercase leading-[1.05] tracking-[0.02em] md:text-7xl">
+          <h1 className="mt-4 md:mt-6 font-display text-3xl sm:text-5xl md:text-7xl font-light uppercase leading-[1.05] tracking-[0.02em]">
             <span data-hero className="block">
               Let&apos;s start a
             </span>
@@ -305,7 +317,7 @@ function ContactPage() {
               Conversation
             </span>
           </h1>
-          <p data-hero className="mx-auto mt-7 max-w-xl text-sm leading-relaxed text-muted-foreground md:text-base">
+          <p data-hero className="mx-auto mt-5 md:mt-7 max-w-xl px-4 md:px-0 text-xs sm:text-sm md:text-base leading-relaxed text-muted-foreground">
             Whether you have a general inquiry, want to explore investment opportunities, or learn
             more about our companies — we are here to help.
           </p>
@@ -399,7 +411,7 @@ function ContactPage() {
                   >
                     Full name
                   </label>
-                  <input id="name" type="text" required placeholder="Your name" className="field-input" />
+                  <input id="name" type="text" required placeholder="Your name" className="field-input" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
                 </div>
 
                 <div data-field className="grid gap-6 sm:grid-cols-2">
@@ -410,7 +422,7 @@ function ContactPage() {
                     >
                       Email address
                     </label>
-                    <input id="email" type="email" required placeholder="you@email.com" className="field-input" />
+                    <input id="email" type="email" required placeholder="you@email.com" className="field-input" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
                   </div>
                   <div>
                     <label
@@ -419,7 +431,7 @@ function ContactPage() {
                     >
                       Phone (optional)
                     </label>
-                    <input id="phone" type="tel" placeholder="03xx xxxxxxx" className="field-input" />
+                    <input id="phone" type="tel" placeholder="03xx xxxxxxx" className="field-input" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
                   </div>
                 </div>
 
@@ -430,7 +442,7 @@ function ContactPage() {
                   >
                     Subject / interest
                   </label>
-                  <select id="subject" required className="field-input appearance-none">
+                  <select id="subject" required className="field-input appearance-none" value={formData.subject} onChange={(e) => setFormData({ ...formData, subject: e.target.value })}>
                     {FORM_SUBJECTS.map((c) => (
                       <option key={c} value={c}>
                         {c}
@@ -452,6 +464,8 @@ function ContactPage() {
                     required
                     placeholder="Tell us about your inquiry..."
                     className="field-input resize-none"
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   />
                 </div>
 

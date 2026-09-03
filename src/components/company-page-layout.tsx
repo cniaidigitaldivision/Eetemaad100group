@@ -8,7 +8,8 @@ import {
   Instagram,
   Linkedin,
   Mail,
-  ChevronRight
+  ChevronRight,
+  Diamond
 } from "lucide-react";
 
 import logo from "@/assets/logo.png";
@@ -114,15 +115,15 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
 
     if (company.keyDetailsType === 'list') {
       return (
-        <div className="grid gap-4 mt-8">
+        <div className="flex flex-col mt-8">
           {company.keyDetails.items.map((item: any, i: number) => (
             <div
               key={i}
               ref={(el) => { detailItemsRef.current[i] = el; }}
-              className="bg-ink p-6 rounded-lg border border-border/50 flex items-center gap-4"
+              className="flex items-center gap-4 p-5 mb-4 rounded-xl border border-white/10 bg-gradient-to-r from-white/[0.05] to-transparent hover:border-blue-400/40 hover:bg-white/[0.08] transition-all duration-300"
             >
-              <div className="w-2 h-2 rounded-full bg-brand-bright flex-shrink-0" />
-              <h4 className="text-sm font-semibold text-slate-200">{item.title}</h4>
+              <Diamond className="w-4 h-4 text-brand-bright flex-shrink-0" />
+              <h4 className="text-sm font-semibold text-slate-100">{item.title}</h4>
             </div>
           ))}
         </div>
@@ -238,9 +239,8 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
 
         <div className="relative z-10 w-full max-w-[1000px] mx-auto px-5 pt-20 flex flex-col items-center justify-center text-center" ref={heroTextRef}>
           {/* Company Logo */}
-          <div className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden flex items-center justify-center border-2 border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.1)] mx-auto mb-6 ${
-            company.slug === 'chitral-gemstone' || company.slug === 'gc-homes' ? 'bg-black' : 'bg-white'
-          }`}>
+          <div className={`w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden flex items-center justify-center border-2 border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.1)] mx-auto mb-6 ${company.slug === 'chitral-gemstone' || company.slug === 'gc-homes' ? 'bg-black' : 'bg-white'
+            }`}>
             <img
               src={company.logo || logo}
               alt={`${company.name} logo`}
@@ -275,58 +275,58 @@ export function CompanyPageLayout({ company }: { company: CompanyData }) {
 
         {/* 2. About This Company */}
         <section className="relative z-10 py-24 px-5 md:px-10" ref={aboutSectionRef}>
-          <div className="max-w-[1000px] mx-auto">
-          <div ref={aboutTextRef} className="space-y-8">
-            <p className="label-eyebrow text-brand-bright">About The Company</p>
-            {company.aboutParagraphs.map((para, i) => (
-              <p key={i} className="text-lg md:text-xl font-light text-slate-300 leading-relaxed">
-                {para}
-              </p>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 3. Key Details */}
-      {company.keyDetails && (
-        <section className="relative z-10 py-24 px-5 md:px-10 border-t border-border/30" ref={detailsSectionRef}>
-          <div className="max-w-[1000px] mx-auto">
-            <div ref={detailsTitleRef}>
-              <p className="label-eyebrow text-brand-bright mb-4">Highlights</p>
-              <h2 className="text-3xl font-serif text-white uppercase tracking-wider mb-12">
-                {company.keyDetails.title || "Key Details"}
-              </h2>
+          <div className="max-w-4xl mx-auto p-8 md:p-12 rounded-3xl bg-white/[0.03] backdrop-blur-md border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
+            <div ref={aboutTextRef} className="space-y-8 text-center">
+              <p className="label-eyebrow text-brand-bright mb-4">About The Company</p>
+              {company.aboutParagraphs.map((para, i) => (
+                <p key={i} className="text-lg text-white/80 leading-relaxed text-center font-light">
+                  {para}
+                </p>
+              ))}
             </div>
-            {renderKeyDetails()}
           </div>
         </section>
-      )}
 
-      {/* 4. Back to Group / Related Companies */}
-      <section className="relative z-10 py-20 px-5 md:px-10 border-t border-border/30" ref={otherCompaniesSectionRef}>
-        <div className="max-w-[1400px] mx-auto">
-          <div ref={otherCompaniesTextRef} className="text-center mb-12">
-            <p className="label-eyebrow text-muted-foreground mb-4">Part of ETEMAAD100 GROUP</p>
-            <h3 className="text-2xl font-light text-white">Explore Other Ventures</h3>
-          </div>
+        {/* 3. Key Details */}
+        {company.keyDetails && (
+          <section className="relative z-10 py-24 px-5 md:px-10 border-t border-border/30" ref={detailsSectionRef}>
+            <div className="max-w-[1000px] mx-auto">
+              <div ref={detailsTitleRef}>
+                <p className="label-eyebrow text-brand-bright mb-4">Highlights</p>
+                <h2 className="text-3xl font-serif text-white uppercase tracking-wider mb-12">
+                  {company.keyDetails.title || "Key Details"}
+                </h2>
+              </div>
+              {renderKeyDetails()}
+            </div>
+          </section>
+        )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
-            {otherCompanies.map((c, i) => (
-              <Link
-                key={c.slug}
-                to={`/companies/${c.slug}`}
-                ref={(el) => { otherCompanyCardsRef.current[i] = el; }}
-                className="bg-ink-soft border border-border p-6 rounded-lg text-center hover:border-brand-bright/50 transition-colors group flex flex-col items-center justify-center min-h-[140px]"
-              >
-                <div className="w-8 h-8 rounded-full border border-border flex items-center justify-center mb-3 group-hover:border-brand-bright/30 transition-colors">
-                  <span className="text-[10px] font-bold text-brand-bright">{c.n}</span>
-                </div>
-                <h4 className="text-[10px] font-semibold text-slate-200 uppercase tracking-wider">{c.shortName || c.name.split(' (')[0]}</h4>
-              </Link>
-            ))}
+        {/* 4. Back to Group / Related Companies */}
+        <section className="relative z-10 py-20 px-5 md:px-10 border-t border-border/30" ref={otherCompaniesSectionRef}>
+          <div className="max-w-[1400px] mx-auto">
+            <div ref={otherCompaniesTextRef} className="text-center mb-12">
+              <p className="label-eyebrow text-muted-foreground mb-4">Part of ETEMAAD100 GROUP</p>
+              <h3 className="text-2xl font-light text-white">Explore Other Ventures</h3>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+              {otherCompanies.map((c, i) => (
+                <Link
+                  key={c.slug}
+                  to={`/companies/${c.slug}`}
+                  ref={(el) => { otherCompanyCardsRef.current[i] = el; }}
+                  className="py-8 px-4 flex flex-col items-center justify-center text-center min-h-[140px] rounded-xl bg-gradient-to-b from-[#0a1128] to-[#060c14] border border-white/5 hover:-translate-y-2 hover:shadow-2xl hover:border-white/20 transition-all duration-300 group"
+                >
+                  <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center mb-4 group-hover:border-blue-400/50 transition-colors bg-white/[0.02]">
+                    <span className="text-[11px] font-bold text-blue-400">{c.n}</span>
+                  </div>
+                  <h4 className="text-xs font-semibold text-white/90 uppercase tracking-wider">{c.shortName || c.name.split(' (')[0]}</h4>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
 
       </div>

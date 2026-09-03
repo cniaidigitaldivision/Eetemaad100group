@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, Home, Building2, Gem, Sparkles, Plane, ChevronDown } from "lucide-react";
+import { Menu, X, Home, Building2, Gem, Sparkles, Plane, ChevronDown, CheckCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/assets/logo.png";
 
@@ -28,6 +28,16 @@ const COMPANIES = [
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isGroupCompaniesOpen, setIsGroupCompaniesOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setStatus('success');
+  };
 
   return (
     <header className="absolute inset-x-0 top-0 z-50">
@@ -90,12 +100,12 @@ export function Navbar() {
               </Link>
             );
           })}
-          <Link
-            to="/contact"
+          <button
+            onClick={() => setIsModalOpen(true)}
             className="rounded-full border border-brand-bright/70 px-6 py-2.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-brand/25"
           >
             Stay Tuned
-          </Link>
+          </button>
         </nav>
       </div>
 
@@ -166,13 +176,76 @@ export function Navbar() {
                 );
               })}
             </nav>
-            <Link
-              to="/contact"
+            <button
+              onClick={() => {
+                setIsModalOpen(true);
+                setIsMobileMenuOpen(false);
+              }}
               className="mt-6 text-center rounded-lg bg-brand-bright/10 border border-brand-bright/30 px-6 py-4 text-xs font-bold uppercase tracking-widest text-brand-bright transition-colors hover:bg-brand-bright/20"
-              onClick={() => setIsMobileMenuOpen(false)}
             >
               Stay Tuned
-            </Link>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Newsletter/Waitlist Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsModalOpen(false)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="max-w-md w-full p-8 rounded-2xl bg-[#0a1128]/90 border border-[#A4F4FD]/20 shadow-[0_0_50px_rgba(164,244,253,0.1)] relative mx-4"
+            >
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="absolute right-6 top-6 text-white/50 hover:text-white transition-colors"
+                aria-label="Close modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <h3 className="text-[#A4F4FD] text-sm tracking-[0.2em] uppercase font-bold">
+                JOIN THE EXCLUSIVE LIST
+              </h3>
+              <h2 className="font-serif text-3xl text-white mt-2 mb-6">
+                Be the first to know.
+              </h2>
+              <form onSubmit={handleSubscribe} className="space-y-4">
+                {status === 'success' ? (
+                  <div className="py-6 text-center text-[#A4F4FD] flex flex-col items-center gap-3">
+                    <CheckCircle className="w-12 h-12" />
+                    <p>Thank you! You have been added to our exclusive list.</p>
+                  </div>
+                ) : (
+                  <>
+                    <input
+                      type="email"
+                      required
+                      placeholder="Enter your email address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="bg-white/5 border border-white/10 rounded-lg w-full p-3 text-white focus:outline-none focus:border-[#A4F4FD]/50 transition-colors"
+                    />
+                    <button
+                      type="submit"
+                      disabled={status === 'loading'}
+                      className={`btn-hero inline-flex w-full items-center justify-center gap-3 rounded-full px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] ${status === 'loading' ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    >
+                      {status === 'loading' ? 'SUBSCRIBING...' : 'Subscribe'}
+                    </button>
+                  </>
+                )}
+              </form>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
