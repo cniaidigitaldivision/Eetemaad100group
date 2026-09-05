@@ -16,6 +16,7 @@ import {
   Gem,
   Sparkles,
   Plane,
+  ChevronDown,
 } from "lucide-react";
 
 import logo from "@/assets/logo.png";
@@ -112,6 +113,7 @@ function ContactPage() {
 
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", subject: FORM_SUBJECTS[0], message: "" });
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
     if (typeof window === "undefined") return;
@@ -435,23 +437,41 @@ function ContactPage() {
                   </div>
                 </div>
 
-                <div data-field>
+                <div data-field className="relative z-50">
                   <label
                     htmlFor="subject"
                     className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground"
                   >
                     Subject / interest
                   </label>
-                  <select id="subject" required className="field-input appearance-none" value={formData.subject} onChange={(e) => setFormData({ ...formData, subject: e.target.value })}>
-                    {FORM_SUBJECTS.map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                  </select>
+                  <button 
+                    type="button" 
+                    id="subject"
+                    className="field-input flex items-center justify-between w-full text-left bg-transparent border border-white/10 rounded-md px-4 py-3 text-white"
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  >
+                    {formData.subject}
+                    <ChevronDown className="h-4 w-4 opacity-50" />
+                  </button>
+                  {isDropdownOpen && (
+                    <ul className="absolute left-0 top-full mt-2 w-full z-[100] bg-[#060C14] overflow-hidden rounded-md border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.9)]">
+                      {FORM_SUBJECTS.map((c) => (
+                        <li 
+                          key={c} 
+                          className="px-4 py-3 text-sm text-white/80 cursor-pointer transition-colors duration-200 hover:bg-[#A4F4FD]/10 hover:text-[#A4F4FD]"
+                          onClick={() => {
+                            setFormData({ ...formData, subject: c });
+                            setIsDropdownOpen(false);
+                          }}
+                        >
+                          {c}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
-                <div data-field>
+                <div data-field className="relative z-10">
                   <label
                     htmlFor="message"
                     className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground"

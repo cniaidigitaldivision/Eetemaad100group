@@ -734,43 +734,6 @@ function AboutPage() {
 
 
 
-      {/* 9. Integrated Business Approach */}
-      <section className="bg-ink-soft py-32 px-5 md:px-10 border-t border-border overflow-hidden" ref={integratedSectionRef}>
-        <div className="max-w-[1400px] mx-auto text-center">
-          <div ref={integratedTextRef} className="mb-20">
-            <p className="label-eyebrow">The Value Chain</p>
-            <h2 className="mt-4 text-3xl font-light leading-[1.2] text-white">
-              Integrated Business Approach
-            </h2>
-          </div>
-
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-4 lg:gap-2 max-w-6xl mx-auto flex-wrap">
-            {["Real Estate", "Mining & Minerals", "Value-Added Products", "Commercial Development", "Tourism", "Investment Opportunities"].map((step, i, arr) => (
-              <div key={step} className="flex flex-col lg:flex-row items-center gap-4 lg:gap-2">
-                <div
-                  ref={(el) => { flowNodesRef.current[i] = el; }}
-                  className="bg-ink border border-border/80 px-6 py-4 rounded-full min-w-[200px]"
-                >
-                  <span className="text-[11px] font-semibold text-slate-200 uppercase tracking-wider">{step}</span>
-                </div>
-                {i < arr.length - 1 && (
-                  <ArrowRight
-                    ref={(el) => { flowArrowsRef.current[i] = el as unknown as SVGSVGElement; }}
-                    className="w-5 h-5 text-blue-400 rotate-90 lg:rotate-0"
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div ref={closingTextRef} className="mt-32">
-            <h2 className="text-4xl md:text-6xl font-light leading-[1.15] tracking-tight">
-              Five Ventures.<br />
-              <span className="text-blue-400 font-serif italic pr-4">One Vision.</span>
-            </h2>
-          </div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className="bg-ink">
